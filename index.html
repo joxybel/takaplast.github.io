@@ -298,6 +298,15 @@
       display: block;
     }
 
+    .solution-illustration-btn {
+      border: none;
+      background: none;
+      padding: 0;
+      cursor: zoom-in;
+      display: block;
+      width: 100%;
+    }
+
     .cta-section {
       margin-top: 2.3rem;
       padding: 1.8rem 1.6rem 1.7rem;
@@ -355,6 +364,29 @@
 
     .lang-block.active {
       display: block;
+    }
+
+    /* Lightbox */
+    .lightbox-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.92);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    .lightbox-overlay.active {
+      display: flex;
+    }
+
+    .lightbox-overlay img {
+      max-width: 95vw;
+      max-height: 90vh;
+      border-radius: 0.75rem;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9);
+      border: 1px solid #111827;
     }
 
     @media (max-width: 820px) {
@@ -506,7 +538,7 @@
         <p>
           Every day, Kinshasa generates thousands of tons of plastic waste, with only a small fraction properly collected and recycled.
           This leads to significant environmental, health and economic costs for the city.
-          By structuring a local industrial value chain, TakaPlast turns this liability into a strategic asset for the territory.
+          By building a local industrial value chain, TakaPlast turns this liability into a strategic asset for the territory.
         </p>
       </div>
     </article>
@@ -521,29 +553,31 @@
           Le modèle combine contrats d’approvisionnement locaux, industrialisation robuste et débouchés sécurisés vers l’industrie et, à terme, les marchés du carbone.
           L’objectif&nbsp;: traiter durablement les flux existants tout en générant des revenus récurrents en devise forte.
         </p>
-<a href="ImageFluxFR.png" target="_blank" rel="noopener">
-  <img src="ImageFluxFR.png"
-       alt="Schéma tri-flux TakaPlast"
-       class="solution-illustration"
-       style="cursor: zoom-in;">
-</a>
-
+        <button type="button"
+                class="solution-illustration-btn"
+                data-image="ImageFluxFR.png"
+                aria-label="Agrandir le schéma tri-flux TakaPlast">
+          <img src="ImageFluxFR.png"
+               alt="Schéma tri-flux TakaPlast"
+               class="solution-illustration">
+        </button>
       </div>
       <div class="lang-block lang-en">
         <span class="badge">Solution</span>
         <h2>An industrial platform for plastic valorization</h2>
         <p>
           TakaPlast is developing an industrial facility able to receive, sort and transform plastic waste into ready‑to‑use secondary raw materials.
-          The model combines local feedstock contracts, robust industrial operations and secured offtake to industry and, over time, carbon markets.
-          The objective: durably treat existing waste flows while generating recurring hard‑currency revenues.
+          The model combines local supply contracts, robust industrial operations and secured offtake to industry and, over time, carbon markets.
+          The objective: durably treat existing plastic flows while generating recurring hard‑currency revenues.
         </p>
-<a href="ImageFluxEN.png" target="_blank" rel="noopener">
-  <img src="ImageFluxEN.png"
-       alt="TakaPlast tri‑stream process diagram"
-       class="solution-illustration"
-       style="cursor: zoom-in;">
-</a>
-
+        <button type="button"
+                class="solution-illustration-btn"
+                data-image="ImageFluxEN.png"
+                aria-label="Enlarge the TakaPlast tri‑stream diagram">
+          <img src="ImageFluxEN.png"
+               alt="TakaPlast tri‑stream process diagram"
+               class="solution-illustration">
+        </button>
       </div>
     </article>
 
@@ -574,7 +608,7 @@
         <ul>
           <li>Target Phase&nbsp;1 capacity: 50&nbsp;tons of plastic processed per day, i.e. 18,250&nbsp;t/year by month&nbsp;24.</li>
           <li>Total industrial CAPEX including 10&nbsp;% contingency: approx. €5.87&nbsp;M.</li>
-          <li>Total funding requirement (full CAPEX + 24&nbsp;months working capital): approx. €7.87&nbsp;M, 100&nbsp;% investor‑funded.</li>
+          <li>Total funding requirement (full CAPEX + 24&nbsp;months working capital): approx. €7.87&nbsp;M, fully funded by investors.</li>
           <li>Target CAPEX payback: 18–22&nbsp;months, with positive EBITDA from month&nbsp;12 and core‑business EBITDA of about €7.8&nbsp;M in Year&nbsp;3.</li>
           <li>5‑year post‑tax ROI: around 400&nbsp;% in the core‑business scenario.</li>
           <li>Environmental impact: up to 55,080&nbsp;tCO₂eq avoided per year at full capacity, equivalent to roughly 12,000 cars removed from the road.</li>
@@ -612,6 +646,11 @@
     </article>
 
   </section>
+
+  <!-- Lightbox overlay -->
+  <div id="image-lightbox" class="lightbox-overlay" aria-hidden="true">
+    <img src="" alt="Agrandissement illustration TakaPlast">
+  </div>
 
   <!-- CTA / CONTACT -->
   <section id="contact" class="cta-section">
@@ -688,6 +727,26 @@
   btnEn.addEventListener('click', () => showLang('en'));
 
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Lightbox
+  const lightbox = document.getElementById('image-lightbox');
+  const lightboxImg = lightbox.querySelector('img');
+  const imageButtons = document.querySelectorAll('.solution-illustration-btn');
+
+  imageButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const src = btn.getAttribute('data-image');
+      lightboxImg.src = src;
+      lightbox.classList.add('active');
+      lightbox.setAttribute('aria-hidden', 'false');
+    });
+  });
+
+  lightbox.addEventListener('click', () => {
+    lightbox.classList.remove('active');
+    lightbox.setAttribute('aria-hidden', 'true');
+    lightboxImg.src = '';
+  });
 </script>
 
 </body>
