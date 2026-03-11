@@ -6,15 +6,15 @@
   <title>TakaPlast – Investor Landing</title>
   <style>
     :root {
-      --bg: #050816;
-      --bg-alt: #02030a;
+      --bg: #020617;
+      --bg-alt: #020210;
       --accent: #00B894;
       --accent-soft: #55efc4;
       --accent-blue: #0984E3;
       --accent-orange: #FDCB6E;
-      --text-main: #EAEFF7;
+      --text-main: #E5F0FF;
       --text-muted: #9CA3AF;
-      --card-bg: #060b1b;
+      --card-bg: #050b1f;
       --border-soft: #111827;
     }
 
@@ -26,7 +26,7 @@
 
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #111827 0, var(--bg) 55%, var(--bg-alt) 100%);
+      background: radial-gradient(circle at top, #0b1120 0, var(--bg) 55%, var(--bg-alt) 100%);
       color: var(--text-main);
       line-height: 1.6;
     }
@@ -124,7 +124,7 @@
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, var(--accent), #4ade80);
+      background: linear-gradient(135deg, var(--accent), #26c6da);
       color: #022c22;
       padding: 0.7rem 1.4rem;
       border-radius: 999px;
@@ -132,12 +132,12 @@
       font-weight: 600;
       border: none;
       cursor: pointer;
-      box-shadow: 0 12px 30px rgba(34, 197, 94, 0.28);
+      box-shadow: 0 12px 30px rgba(0, 184, 148, 0.35);
     }
 
     .btn-primary:hover {
       transform: translateY(-1px);
-      box-shadow: 0 18px 35px rgba(34, 197, 94, 0.33);
+      box-shadow: 0 18px 35px rgba(0, 184, 148, 0.45);
     }
 
     .hero-note {
@@ -155,7 +155,7 @@
     .tag {
       border-radius: 999px;
       border: 1px solid #1f2937;
-      background: rgba(15, 23, 42, 0.85);
+      background: rgba(15, 23, 42, 0.9);
       padding: 0.25rem 0.65rem;
       font-size: 0.75rem;
       color: var(--text-muted);
@@ -188,11 +188,11 @@
     }
 
     .hero-graphic {
-      background: radial-gradient(circle at top, #0b1120 0, #020617 60%);
+      background: radial-gradient(circle at top, #020617 0, #02010b 60%);
       border-radius: 1rem;
       border: 1px solid var(--border-soft);
       padding: 1.15rem 1.2rem;
-      box-shadow: 0 22px 50px rgba(0, 0, 0, 0.55);
+      box-shadow: 0 22px 50px rgba(0, 0, 0, 0.7);
     }
 
     .hero-graphic-title {
@@ -211,11 +211,11 @@
     }
 
     .card {
-      background: radial-gradient(circle at top left, #020617 0, var(--card-bg) 55%);
+      background: radial-gradient(circle at top left, #020617 0, var(--card-bg) 60%);
       border-radius: 1rem;
       border: 1px solid var(--border-soft);
       padding: 1.4rem 1.5rem 1.5rem;
-      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7);
     }
 
     .card h2 {
@@ -245,7 +245,7 @@
       font-size: 0.7rem;
       text-transform: uppercase;
       letter-spacing: 0.12em;
-      color: var(--text-muted);
+      color: var(--accent-blue);
       margin-bottom: 0.5rem;
     }
 
@@ -286,16 +286,24 @@
     }
 
     .team-list strong {
-      color: #e5e7eb;
+      color: #E5F0FF;
       font-weight: 600;
+    }
+
+    .solution-illustration {
+      margin-top: 0.9rem;
+      width: 100%;
+      border-radius: 0.75rem;
+      border: 1px solid #111827;
+      display: block;
     }
 
     .cta-section {
       margin-top: 2.3rem;
       padding: 1.8rem 1.6rem 1.7rem;
       border-radius: 1rem;
-      border: 1px solid rgba(34, 197, 94, 0.35);
-      background: radial-gradient(circle at top left, rgba(34, 197, 94, 0.1), transparent 55%);
+      border: 1px solid rgba(0, 184, 148, 0.5);
+      background: radial-gradient(circle at top left, rgba(0, 184, 148, 0.12), transparent 60%);
     }
 
     .cta-section h2 {
@@ -328,6 +336,19 @@
       text-decoration-color: rgba(190, 242, 100, 0.6);
     }
 
+    footer {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 1.5rem 1.25rem 2rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      border-top: 1px solid #111827;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
     .lang-block {
       display: none;
     }
@@ -353,6 +374,11 @@
 
       .sections {
         grid-template-columns: minmax(0, 1fr);
+      }
+
+      footer {
+        flex-direction: column;
+        align-items: flex-start;
       }
     }
   </style>
@@ -383,10 +409,10 @@
           Projet industriel de recyclage des déchets plastiques, créateur de valeur économique et d’impact climat en RDC.
         </p>
         <div class="hero-cta">
-          <a href="#contact">
+          <a href="TakaPlast_Investor_Teaser.pdf" download>
             <button class="btn-primary" type="button">Recevoir le teaser investisseur</button>
           </a>
-          <span class="hero-note">Teaser détaillé envoyé sur demande aux investisseurs professionnels.</span>
+          <span class="hero-note">Version synthétique, détaillant CAPEX, ROI et impact à haut niveau.</span>
         </div>
         <div class="hero-tags">
           <span class="tag">Recyclage industriel</span>
@@ -413,10 +439,10 @@
           Industrial recycling project turning plastic waste into economic returns and climate impact in the DRC.
         </p>
         <div class="hero-cta">
-          <a href="#contact">
+          <a href="TakaPlast_Investor_Teaser.pdf" download>
             <button class="btn-primary" type="button">Get the investor teaser</button>
           </a>
-          <span class="hero-note">Detailed teaser shared upon request with professional investors.</span>
+          <span class="hero-note">Concise document with high‑level CAPEX, returns and impact.</span>
         </div>
         <div class="hero-tags">
           <span class="tag">Industrial recycling</span>
@@ -495,6 +521,9 @@
           Le modèle combine contrats d’approvisionnement locaux, industrialisation robuste et débouchés sécurisés vers l’industrie et, à terme, les marchés du carbone.
           L’objectif&nbsp;: traiter durablement les flux existants tout en générant des revenus récurrents en devise forte.
         </p>
+        <img src="ImageFluxFR.jpg"
+             alt="Schéma tri-flux TakaPlast"
+             class="solution-illustration">
       </div>
       <div class="lang-block lang-en">
         <span class="badge">Solution</span>
@@ -504,6 +533,9 @@
           The model combines local feedstock contracts, robust industrial operations and secured offtake to industry and, over time, carbon markets.
           The objective: durably treat existing waste flows while generating recurring hard‑currency revenues.
         </p>
+        <img src="ImageFluxEN-2.jpg"
+             alt="TakaPlast tri‑stream process diagram"
+             class="solution-illustration">
       </div>
     </article>
 
@@ -521,130 +553,4 @@
           <li>Besoin de financement total (CAPEX complet + 24&nbsp;mois de fonds de roulement)&nbsp;: 8,17&nbsp;M€, 100&nbsp;% financés par les investisseurs.</li>
           <li>Payback cible sur CAPEX&nbsp;: 18–22&nbsp;mois, EBITDA positif dès le mois&nbsp;12 et EBITDA cœur d’activité d’environ 7,8&nbsp;M€ en année&nbsp;3.</li>
           <li>ROI post‑impôt sur 5&nbsp;ans&nbsp;: environ 400&nbsp;% sur la base du scénario cœur d’activité.</li>
-          <li>Impact environnemental&nbsp;: jusqu’à 55&nbsp;080&nbsp;tCO₂eq évitées par an en vitesse de croisière, soit l’équivalent d’environ 12&nbsp;000 voitures retirées de la circulation.</li>
-          <li>Impact social&nbsp;: 114&nbsp;emplois directs et 50&nbsp;coopératives de collecteurs soutenues à pleine capacité.</li>
-        </ul>
-      </div>
-      <div class="lang-block lang-en">
-        <span class="badge">Economics &amp; impact</span>
-        <h2>Attractive economics and impact fundamentals</h2>
-        <p>
-          TakaPlast’s modular design enables phased deployment, aligning CAPEX, operational ramp‑up and offtake security.
-        </p>
-        <ul>
-          <li>Target Phase&nbsp;1 capacity: 50&nbsp;tons of plastic processed per day, i.e. 18,250&nbsp;t/year by month&nbsp;24.</li>
-          <li>Total industrial CAPEX including 10&nbsp;% contingency: approx. €5.87&nbsp;M.</li>
-          <li>Total funding requirement (full CAPEX + 24&nbsp;months working capital): approx. €8.17&nbsp;M, 100&nbsp;% investor‑funded.</li>
-          <li>Target CAPEX payback: 18–22&nbsp;months, with positive EBITDA from month&nbsp;12 and core‑business EBITDA of about €7.8&nbsp;M in Year&nbsp;3.</li>
-          <li>5‑year post‑tax ROI: around 400&nbsp;% in the core‑business scenario.</li>
-          <li>Environmental impact: up to 55,080&nbsp;tCO₂eq avoided per year at full capacity, equivalent to roughly 12,000 cars removed from the road.</li>
-          <li>Social impact: 114&nbsp;direct jobs and 50&nbsp;collector cooperatives supported at full capacity.</li>
-        </ul>
-      </div>
-    </article>
-
-    <!-- Équipe -->
-    <article class="card">
-      <div class="lang-block lang-fr active">
-        <span class="badge">Équipe</span>
-        <h2>Une équipe ancrée localement, connectée aux investisseurs</h2>
-        <p>
-          TakaPlast est portée par une équipe mêlant expérience en gestion de projets industriels, finance climat et opérations terrain en Afrique centrale.
-        </p>
-        <div class="team-list">
-          <p><strong>Joël M'Bavu Oxybel</strong> – Fondateur &amp; Directeur de projet : gestion de projets et structuration de financements climat entre l’Europe et l’Afrique.</p>
-          <p><strong>Serge Kabeya Tshishimbi</strong> – Opérations Kinshasa : expérience dans la logistique et la gestion de sites industriels.</p>
-          <p><strong>Wilmot Gibson</strong> – Finance &amp; Structuration : background en finance de projet et structuration d’investissements d’infrastructure.</p>
-        </div>
-      </div>
-      <div class="lang-block lang-en">
-        <span class="badge">Team</span>
-        <h2>A locally rooted, investor‑ready team</h2>
-        <p>
-          TakaPlast is led by a team combining experience in industrial project management, climate finance and on‑the‑ground operations in Central Africa.
-        </p>
-        <div class="team-list">
-          <p><strong>Joël M'Bavu Oxybel</strong> – Founder &amp; Project Lead: experience in projects management and climate finance structuring between Europe and Africa.</p>
-          <p><strong>Serge Kabeya Tshishimbi</strong> – Kinshasa Operations: background in logistics and industrial site management.</p>
-          <p><strong>Wilmot Gibson</strong> – Finance &amp; Structuring: track record in project finance and infrastructure investment structuring.</p>
-        </div>
-      </div>
-    </article>
-
-  </section>
-
-  <!-- CTA / CONTACT -->
-  <section id="contact" class="cta-section">
-    <div class="lang-block lang-fr active">
-      <h2>Intéressé par TakaPlast&nbsp;?</h2>
-      <p>
-        Nous partageons un teaser investisseur détaillant le projet, son CAPEX, ses flux économiques et son calendrier,
-        sur demande et dans un cadre confidentiel adapté aux investisseurs professionnels.
-      </p>
-      <p>
-        Vous êtes fonds d’infrastructure, investisseur climat ou family office&nbsp;? Contactez‑nous pour recevoir le teaser
-        et échanger sur les modalités d’investissement.
-      </p>
-      <div class="cta-actions">
-        <a href="mailto:contact@takaplast.com?subject=TakaPlast%20-%20Demande%20de%20teaser%20investisseur">
-          <button class="btn-primary" type="button">Discuter avec TakaPlast</button>
-        </a>
-        <div class="cta-secondary">
-          Ou écrivez‑nous directement à
-          <a href="mailto:contact@takaplast.com">contact@takaplast.com</a>.
-        </div>
-      </div>
-    </div>
-
-    <div class="lang-block lang-en">
-      <h2>Interested in TakaPlast?</h2>
-      <p>
-        We provide an investor teaser detailing the project, CAPEX envelope, economics and rollout timeline,
-        upon request and under an appropriate confidentiality framework for professional investors.
-      </p>
-      <p>
-        Are you an infrastructure, climate or family office investor? Reach out to receive the teaser and
-        discuss potential investment structures.
-      </p>
-      <div class="cta-actions">
-        <a href="mailto:contact@takaplast.com?subject=TakaPlast%20-%20Investor%20teaser%20request">
-          <button class="btn-primary" type="button">Talk with TakaPlast</button>
-        </a>
-        <div class="cta-secondary">
-          Or email us directly at
-          <a href="mailto:contact@takaplast.com">contact@takaplast.com</a>.
-        </div>
-      </div>
-    </div>
-  </section>
-
-</main>
-
-<script>
-  const btnFr = document.getElementById('btn-fr');
-  const btnEn = document.getElementById('btn-en');
-  const frBlocks = document.querySelectorAll('.lang-fr');
-  const enBlocks = document.querySelectorAll('.lang-en');
-
-  function showLang(lang) {
-    if (lang === 'fr') {
-      frBlocks.forEach(el => el.classList.add('active'));
-      enBlocks.forEach(el => el.classList.remove('active'));
-      btnFr.classList.add('active');
-      btnEn.classList.remove('active');
-      document.documentElement.lang = 'fr';
-    } else {
-      frBlocks.forEach(el => el.classList.remove('active'));
-      enBlocks.forEach(el => el.classList.add('active'));
-      btnFr.classList.remove('active');
-      btnEn.classList.add('active');
-      document.documentElement.lang = 'en';
-    }
-  }
-
-  btnFr.addEventListener('click', () => showLang('fr'));
-  btnEn.addEventListener('click', () => showLang('en'));
-</script>
-
-</body>
-</html>
+          <li>Impact environnemental&nbsp;: jusqu’à 55&nbsp;080&nbsp;tCO₂eq
