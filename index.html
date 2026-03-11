@@ -6,14 +6,16 @@
   <title>TakaPlast – Investor Landing</title>
   <style>
     :root {
-      --bg: #0f172a;
-      --bg-alt: #020617;
-      --accent: #22c55e;
-      --accent-soft: #bbf7d0;
-      --text-main: #e5e7eb;
-      --text-muted: #9ca3af;
-      --card-bg: #020617;
-      --border-soft: #1e293b;
+      --bg: #050816;
+      --bg-alt: #02030a;
+      --accent: #00B894;
+      --accent-soft: #55efc4;
+      --accent-blue: #0984E3;
+      --accent-orange: #FDCB6E;
+      --text-main: #EAEFF7;
+      --text-muted: #9CA3AF;
+      --card-bg: #060b1b;
+      --border-soft: #111827;
     }
 
     * {
@@ -24,7 +26,7 @@
 
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #1f2937 0, var(--bg) 55%, var(--bg-alt) 100%);
+      background: radial-gradient(circle at top, #111827 0, var(--bg) 55%, var(--bg-alt) 100%);
       color: var(--text-main);
       line-height: 1.6;
     }
@@ -122,7 +124,7 @@
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, #22c55e, #4ade80);
+      background: linear-gradient(135deg, var(--accent), #4ade80);
       color: #022c22;
       padding: 0.7rem 1.4rem;
       border-radius: 999px;
@@ -159,6 +161,32 @@
       color: var(--text-muted);
     }
 
+    .hero-flow-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 1.1rem;
+      font-size: 0.8rem;
+    }
+
+    .hero-flow-line .flow-chip {
+      padding: 0.3rem 0.65rem;
+      border-radius: 999px;
+      border: 1px solid #1f2937;
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .hero-flow-line .flow-metric {
+      color: var(--accent-soft);
+      border-color: rgba(34, 197, 94, 0.6);
+    }
+
+    .hero-flow-line .flow-arrow {
+      flex: 0 0 auto;
+      font-size: 0.85rem;
+      color: #4b5563;
+    }
+
     .hero-graphic {
       background: radial-gradient(circle at top, #0b1120 0, #020617 60%);
       border-radius: 1rem;
@@ -175,37 +203,6 @@
       margin-bottom: 1rem;
     }
 
-    .flow {
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-      font-size: 0.78rem;
-    }
-
-    .flow-row {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .flow-chip {
-      padding: 0.3rem 0.7rem;
-      border-radius: 999px;
-      border: 1px solid #1f2937;
-      background: rgba(15, 23, 42, 0.9);
-      font-size: 0.78rem;
-    }
-
-    .flow-arrow {
-      flex: 0 0 auto;
-      font-size: 0.9rem;
-      color: #4b5563;
-    }
-
-    .flow-metric {
-      color: var(--accent-soft);
-    }
-
     .sections {
       display: grid;
       grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.2fr);
@@ -214,11 +211,11 @@
     }
 
     .card {
-      background: rgba(15, 23, 42, 0.9);
+      background: radial-gradient(circle at top left, #020617 0, var(--card-bg) 55%);
       border-radius: 1rem;
       border: 1px solid var(--border-soft);
       padding: 1.4rem 1.5rem 1.5rem;
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6);
     }
 
     .card h2 {
@@ -396,6 +393,17 @@
           <span class="tag">Climat &amp; impact</span>
           <span class="tag">Afrique centrale</span>
         </div>
+        <div class="hero-flow-line">
+          <span class="flow-chip">Déchets plastiques urbains</span>
+          <span class="flow-arrow">⟶</span>
+          <span class="flow-chip">Collecte &amp; pré‑traitement</span>
+          <span class="flow-arrow">⟶</span>
+          <span class="flow-chip">Unité TakaPlast (3 flux)</span>
+          <span class="flow-arrow">⟶</span>
+          <span class="flow-chip">Pellets • Pavers • LPG</span>
+          <span class="flow-arrow">⟶</span>
+          <span class="flow-chip flow-metric">Revenus &amp; tCO₂ évitées</span>
+        </div>
       </div>
 
       <!-- EN -->
@@ -415,27 +423,38 @@
           <span class="tag">Climate &amp; impact</span>
           <span class="tag">Central Africa</span>
         </div>
+        <div class="hero-flow-line">
+          <span class="flow-chip">Urban plastic waste</span>
+          <span class="flow-arrow">⟶</span>
+          <span class="flow-chip">Collection &amp; pre‑treatment</span>
+          <span class="flow-arrow">⟶</span>
+          <span class="flow-chip">TakaPlast plant (3 streams)</span>
+          <span class="flow-arrow">⟶</span>
+          <span class="flow-chip">Pellets • Pavers • LPG</span>
+          <span class="flow-arrow">⟶</span>
+          <span class="flow-chip flow-metric">Revenues &amp; tCO₂ avoided</span>
+        </div>
       </div>
     </div>
 
-    <!-- Simple flow graphic -->
     <aside class="hero-graphic">
-      <div class="hero-graphic-title">Flux TakaPlast – Schéma de principe</div>
-      <div class="flow">
-        <div class="flow-row">
-          <span class="flow-chip">Déchets plastiques urbains</span>
-          <span class="flow-arrow">⟶</span>
-          <span class="flow-chip">Collecte &amp; pré‑traitement</span>
+      <div class="hero-graphic-title">TakaPlast en chiffres clés</div>
+      <div class="metrics">
+        <div class="metric">
+          <span class="metric-label">Capacité cible</span>
+          <span class="metric-value">50&nbsp;t/jour • 18&nbsp;250&nbsp;t/an</span>
         </div>
-        <div class="flow-row">
-          <span class="flow-chip">Unité TakaPlast</span>
-          <span class="flow-arrow">⟶</span>
-          <span class="flow-chip">Matières premières secondaires</span>
+        <div class="metric">
+          <span class="metric-label">CAPEX total</span>
+          <span class="metric-value">≈ 5,9&nbsp;M€</span>
         </div>
-        <div class="flow-row">
-          <span class="flow-chip">Ventes industrielles &amp; climat</span>
-          <span class="flow-arrow">⟶</span>
-          <span class="flow-chip flow-metric">Revenus récurrents &amp; tCO₂ évitées</span>
+        <div class="metric">
+          <span class="metric-label">Payback CAPEX</span>
+          <span class="metric-value">18–22&nbsp;mois</span>
+        </div>
+        <div class="metric">
+          <span class="metric-label">Impact climat</span>
+          <span class="metric-value">55&nbsp;080&nbsp;tCO₂eq/an</span>
         </div>
       </div>
     </aside>
@@ -497,13 +516,13 @@
           La conception modulaire de TakaPlast permet un déploiement par phases, en alignant CAPEX, ramp‑up opérationnel et sécurisation des débouchés.
         </p>
         <ul>
-          <li>Capacité cible Phase&nbsp;1&nbsp;: 50&nbsp;tonnes de plastiques traités par jour, soit 18&nbsp;250&nbsp;t/an à l’horizon M24.[file:640][file:639]</li>
-          <li>CAPEX industriel total, incluant 10&nbsp;% de contingence&nbsp;: 5,87&nbsp;M€ environ.[file:640]</li>
-          <li>Besoin de financement total (CAPEX complet + 24&nbsp;mois de fonds de roulement)&nbsp;: 8,17&nbsp;M€ 100&nbsp;% financés par les investisseurs.[file:640][file:639]</li>
-          <li>Payback cible sur CAPEX&nbsp;: 18–22&nbsp;mois, EBITDA positif dès le mois&nbsp;12 et EBITDA cœur d’activité d’environ 7,8&nbsp;M€ en année&nbsp;3.[file:640][file:639]</li>
-          <li>ROI post‑impôt sur 5&nbsp;ans&nbsp;: environ 400&nbsp;% sur la base du scénario cœur d’activité.[file:640][file:639]</li>
-          <li>Impact environnemental&nbsp;: jusqu’à 55&nbsp;080&nbsp;tCO₂eq évitées par an en vitesse de croisière, soit l’équivalent d’environ 12&nbsp;000 voitures retirées de la circulation.[file:640][file:639]</li>
-          <li>Impact social&nbsp;: 114&nbsp;emplois directs et 50&nbsp;coopératives de collecteurs soutenues à pleine capacité.[file:640][file:639]</li>
+          <li>Capacité cible Phase&nbsp;1&nbsp;: 50&nbsp;tonnes de plastiques traités par jour, soit 18&nbsp;250&nbsp;t/an à l’horizon M24.</li>
+          <li>CAPEX industriel total, incluant 10&nbsp;% de contingence&nbsp;: 5,87&nbsp;M€ environ.</li>
+          <li>Besoin de financement total (CAPEX complet + 24&nbsp;mois de fonds de roulement)&nbsp;: 8,17&nbsp;M€, 100&nbsp;% financés par les investisseurs.</li>
+          <li>Payback cible sur CAPEX&nbsp;: 18–22&nbsp;mois, EBITDA positif dès le mois&nbsp;12 et EBITDA cœur d’activité d’environ 7,8&nbsp;M€ en année&nbsp;3.</li>
+          <li>ROI post‑impôt sur 5&nbsp;ans&nbsp;: environ 400&nbsp;% sur la base du scénario cœur d’activité.</li>
+          <li>Impact environnemental&nbsp;: jusqu’à 55&nbsp;080&nbsp;tCO₂eq évitées par an en vitesse de croisière, soit l’équivalent d’environ 12&nbsp;000 voitures retirées de la circulation.</li>
+          <li>Impact social&nbsp;: 114&nbsp;emplois directs et 50&nbsp;coopératives de collecteurs soutenues à pleine capacité.</li>
         </ul>
       </div>
       <div class="lang-block lang-en">
@@ -513,17 +532,16 @@
           TakaPlast’s modular design enables phased deployment, aligning CAPEX, operational ramp‑up and offtake security.
         </p>
         <ul>
-          <li>Target Phase&nbsp;1 capacity: 50&nbsp;tons of plastic processed per day, i.e. 18,250&nbsp;t/year by month&nbsp;24.[file:640][file:639]</li>
-          <li>Total industrial CAPEX including 10&nbsp;% contingency: approx. €5.87&nbsp;M.[file:640]</li>
-          <li>Total funding requirement (full CAPEX + 24&nbsp;months working capital): approx. €8.17&nbsp;M, 100&nbsp;% investor‑funded.[file:640][file:639]</li>
-          <li>Target CAPEX payback: 18–22&nbsp;months, with positive EBITDA from month&nbsp;12 and core‑business EBITDA of about €7.8&nbsp;M in Year&nbsp;3.[file:640][file:639]</li>
-          <li>5‑year post‑tax ROI: around 400&nbsp;% in the core‑business scenario.[file:640][file:639]</li>
-          <li>Environmental impact: up to 55,080&nbsp;tCO₂eq avoided per year at full capacity, equivalent to roughly 12,000 cars removed from the road.[file:640][file:639]</li>
-          <li>Social impact: 114&nbsp;direct jobs and 50&nbsp;collector cooperatives supported at full capacity.[file:640][file:639]</li>
+          <li>Target Phase&nbsp;1 capacity: 50&nbsp;tons of plastic processed per day, i.e. 18,250&nbsp;t/year by month&nbsp;24.</li>
+          <li>Total industrial CAPEX including 10&nbsp;% contingency: approx. €5.87&nbsp;M.</li>
+          <li>Total funding requirement (full CAPEX + 24&nbsp;months working capital): approx. €8.17&nbsp;M, 100&nbsp;% investor‑funded.</li>
+          <li>Target CAPEX payback: 18–22&nbsp;months, with positive EBITDA from month&nbsp;12 and core‑business EBITDA of about €7.8&nbsp;M in Year&nbsp;3.</li>
+          <li>5‑year post‑tax ROI: around 400&nbsp;% in the core‑business scenario.</li>
+          <li>Environmental impact: up to 55,080&nbsp;tCO₂eq avoided per year at full capacity, equivalent to roughly 12,000 cars removed from the road.</li>
+          <li>Social impact: 114&nbsp;direct jobs and 50&nbsp;collector cooperatives supported at full capacity.</li>
         </ul>
       </div>
     </article>
-
 
     <!-- Équipe -->
     <article class="card">
