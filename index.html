@@ -1,41 +1,102 @@
 <!DOCTYPE html>
 <html lang="fr">
+<!--
+╔══════════════════════════════════════════════════════════════════════════╗
+║  TAKAPLAST — LANDING INVESTISSEUR — index.html                          ║
+║  Hébergement : GitHub Pages (takaplast.github.io → www.takaplast.com)  ║
+║  Dernière mise à jour : Mars 2026 — Budget v1.5                         ║
+╠══════════════════════════════════════════════════════════════════════════╣
+║                                                                          ║
+║  GUIDE DE MISE À JOUR (sans connaissance technique)                      ║
+║  ─────────────────────────────────────────────────                       ║
+║  1. CHIFFRES CLÉS      → Modifier la section CONFIG ci-dessous           ║
+║  2. TEXTES FR/EN       → Chaque section est étiquetée <!-- FR --> / <!-- EN -->  ║
+║  3. ÉQUIPE             → Chercher "BLOC ÉQUIPE"                          ║
+║  4. STATUT LEVÉE       → Chercher "STATUT_LEVEE"                         ║
+║  5. FORMULAIRE         → Remplacer YOUR_FORMSPREE_ID (instructions bas)  ║
+║                                                                          ║
+║  DÉPLOIEMENT           → Commit sur main → GitHub Pages déploie en 2min ║
+╚══════════════════════════════════════════════════════════════════════════╝
+ 
+════════════════ CONFIG — TOUS LES CHIFFRES ICI ════════════════════════════
+ 
+  Ces valeurs sont affichées via les attributs data-val="CLE" dans le HTML.
+  Pour mettre à jour un chiffre partout sur la page : modifier ici seulement.
+ 
+  Clé                     Valeur FR             Valeur EN
+  ─────────────────────────────────────────────────────────
+  CAPEX_TOTAL             8 166 074 $           US$ 8,166,074
+  CAPEX_INDUS             5 868 060 $           US$ 5,868,060
+  WC                      2 298 014 $           US$ 2,298,014
+  CAPACITE                50 t/jour · 18 250 t/an   50 t/day · 18,250 t/year
+  CA_AN3                  12,3 M$               US$12.3 M
+  EBITDA_AN3              7,7 M$ (66%)          US$7.7 M (66%)
+  CA_AN5                  21,4 M$               US$21.4 M
+  ROI_5ANS                > 400 %               > 400 %
+  PAYBACK                 22 mois               22 months
+  CO2                     55 080 tCO₂eq/an      55,080 tCO₂eq/yr
+  EMPLOIS                 164 (114 directs + 50 coopératives)
+ 
+  STATUT LEVÉE (STATUT_LEVEE) :
+    Valeur FR : "Levée en cours — Clôture cible Q3 2026"
+    Valeur EN : "Fundraising open — Target close Q3 2026"
+ 
+════════════════ FORMSPREE — CONFIGURATION ═════════════════════════════════
+ 
+  Étapes (5 minutes) :
+  1. Créer un compte gratuit sur https://formspree.io
+  2. Créer un nouveau formulaire → copier l'ID (ex: xwkgjpqo)
+  3. Dans ce fichier : remplacer YOUR_FORMSPREE_ID par cet ID
+  4. Commit → les soumissions arrivent par email à votre adresse Formspree
+ 
+  Limite plan gratuit : 50 soumissions / mois (suffisant pour la levée)
+ 
+═══════════════════════════════════════════════════════════════════════════
+-->
+ 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>TakaPlast – Investor Landing</title>
+  <title>TakaPlast – Recyclage industriel tri-flux · Kinshasa, RDC</title>
+  <meta name="description"
+        content="TakaPlast transforme 50 t/j de déchets plastiques en granulés HDPE/PP, pavés BTP et GPL. Levée 8 166 074 $ · EBITDA An3 7,7 M$ · ROI 5 ans >400 %. Kinshasa, RDC.">
+ 
+  <!-- ─── Open Graph (LinkedIn / WhatsApp / email preview) ─── -->
+  <meta property="og:type"        content="website">
+  <meta property="og:url"         content="https://www.takaplast.com/">
+  <meta property="og:title"       content="TakaPlast – Investir dans le recyclage industriel à Kinshasa">
+  <meta property="og:description" content="Premier acteur tri-flux RDC. Levée 8 166 074 $ · EBITDA An3 7,7 M$ · ROI >400 % · 164 emplois · 55 080 tCO₂eq/an.">
+  <meta property="og:image"       content="https://www.takaplast.com/ImageFluxFR.png">
+  <meta name="twitter:card"       content="summary_large_image">
+ 
   <style>
+    /* ═══════════════════════════════════════════════════════════
+       DESIGN — Identique au site original + améliorations mineures
+       ═══════════════════════════════════════════════════════════ */
     :root {
-      --bg: #020617;
-      --bg-alt: #020210;
-      --accent: #00B894;
-      --accent-soft: #55efc4;
-      --accent-blue: #0984E3;
-      --accent-orange: #FDCB6E;
-      --text-main: #E5F0FF;
-      --text-muted: #9CA3AF;
-      --card-bg: #050b1f;
-      --border-soft: #111827;
+      --bg:           #020617;
+      --bg-alt:       #020210;
+      --accent:       #00B894;
+      --accent-soft:  #55efc4;
+      --accent-blue:  #0984E3;
+      --accent-orange:#FDCB6E;
+      --text-main:    #E5F0FF;
+      --text-muted:   #9CA3AF;
+      --card-bg:      #050b1f;
+      --border:       #111827;
+      --red:          #EF4444;
     }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ 
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background: radial-gradient(circle at top, #0b1120 0, var(--bg) 55%, var(--bg-alt) 100%);
       color: var(--text-main);
-      line-height: 1.6;
+      line-height: 1.65;
     }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
+    a { color: inherit; text-decoration: none; }
+ 
+    /* ── HEADER ── */
     header {
       padding: 1.5rem 1.25rem;
       max-width: 1040px;
@@ -43,737 +104,1017 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-wrap: wrap;
+      gap: .6rem;
     }
-
     .logo {
       font-weight: 700;
-      letter-spacing: 0.08em;
+      letter-spacing: .08em;
       text-transform: uppercase;
-      font-size: 0.9rem;
+      font-size: .9rem;
       display: flex;
       align-items: center;
-      gap: 0.4rem;
+      gap: .4rem;
     }
-
     .logo-badge {
-      width: 22px;
-      height: 22px;
+      width: 22px; height: 22px;
       border-radius: 999px;
       border: 2px solid var(--accent);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.7rem;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .7rem;
     }
-
-    .lang-switch {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      display: flex;
-      gap: 0.75rem;
-    }
-
+    .lang-switch { font-size: .85rem; color: var(--text-muted); display: flex; gap: .75rem; align-items: center; }
     .lang-switch button {
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      cursor: pointer;
-      padding: 0;
+      background: none; border: none; color: var(--text-muted);
+      cursor: pointer; padding: 0; font-size: .85rem;
     }
-
-    .lang-switch button.active {
-      color: var(--accent-soft);
+    .lang-switch button.active { color: var(--accent-soft); font-weight: 600; }
+ 
+    /* ── MAIN ── */
+    main { max-width: 1040px; margin: 0 auto; padding: 0 1.25rem 3rem; }
+ 
+    /* ── STATUT LEVÉE ── */
+    /* ── STATUT_LEVEE : badge visible en haut du hero ── */
+    .levee-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      font-size: .78rem;
       font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: .3rem .8rem;
+      border-radius: 999px;
+      border: 1px solid rgba(0,184,148,.5);
+      background: rgba(0,184,148,.1);
+      color: var(--accent-soft);
+      margin-bottom: .9rem;
     }
-
-    main {
-      max-width: 1040px;
-      margin: 0 auto;
-      padding: 0 1.25rem 3rem;
+    .levee-badge::before {
+      content: '';
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0,184,148,.3);
+      animation: pulse 2s infinite;
     }
-
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 3px rgba(0,184,148,.3); }
+      50%       { box-shadow: 0 0 0 6px rgba(0,184,148,.1); }
+    }
+ 
+    /* ── HERO ── */
     .hero {
       display: grid;
       grid-template-columns: minmax(0, 3fr) minmax(0, 2.4fr);
       gap: 2.25rem;
-      align-items: center;
+      align-items: start;
       padding: 2.5rem 0 2.75rem;
-      border-bottom: 1px solid #111827;
+      border-bottom: 1px solid var(--border);
     }
-
     .hero-title {
-      font-size: clamp(2.1rem, 3vw, 2.6rem);
+      font-size: clamp(1.9rem, 3vw, 2.5rem);
       font-weight: 650;
-      letter-spacing: -0.03em;
-      margin-bottom: 0.9rem;
+      letter-spacing: -.03em;
+      margin-bottom: .85rem;
+      line-height: 1.2;
     }
-
     .hero-subtitle {
       color: var(--text-muted);
-      font-size: 0.98rem;
+      font-size: .96rem;
       max-width: 32rem;
-      margin-bottom: 1.4rem;
+      margin-bottom: .5rem;
     }
-
+    /* Mission terrain — bloc confiance */
+    .mission-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      font-size: .8rem;
+      color: var(--accent-orange);
+      border: 1px solid rgba(253,203,110,.3);
+      background: rgba(253,203,110,.07);
+      padding: .28rem .7rem;
+      border-radius: .4rem;
+      margin-bottom: 1.1rem;
+    }
     .hero-cta {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 0.85rem;
-      margin-bottom: 0.8rem;
+      gap: .85rem;
+      margin-bottom: .7rem;
     }
-
     .btn-primary {
       background: linear-gradient(135deg, var(--accent), #26c6da);
       color: #022c22;
-      padding: 0.7rem 1.4rem;
+      padding: .7rem 1.4rem;
       border-radius: 999px;
-      font-size: 0.9rem;
+      font-size: .9rem;
       font-weight: 600;
       border: none;
       cursor: pointer;
-      box-shadow: 0 12px 30px rgba(0, 184, 148, 0.35);
+      box-shadow: 0 12px 30px rgba(0,184,148,.35);
+      transition: transform .15s, box-shadow .15s;
     }
-
-    .btn-primary:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 18px 35px rgba(0, 184, 148, 0.45);
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 18px 35px rgba(0,184,148,.45); }
+    .btn-secondary {
+      background: transparent;
+      color: var(--accent-soft);
+      padding: .65rem 1.2rem;
+      border-radius: 999px;
+      font-size: .88rem;
+      font-weight: 600;
+      border: 1px solid rgba(85,239,196,.4);
+      cursor: pointer;
+      transition: background .15s;
     }
-
-    .hero-note {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
-    .hero-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.45rem;
-      margin-top: 1.1rem;
-    }
-
+    .btn-secondary:hover { background: rgba(85,239,196,.08); }
+    .hero-note { font-size: .8rem; color: var(--text-muted); }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: 1rem; }
     .tag {
       border-radius: 999px;
       border: 1px solid #1f2937;
-      background: rgba(15, 23, 42, 0.9);
-      padding: 0.25rem 0.65rem;
-      font-size: 0.75rem;
+      background: rgba(15,23,42,.9);
+      padding: .25rem .65rem;
+      font-size: .74rem;
       color: var(--text-muted);
     }
-
     .hero-flow-line {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.35rem;
-      margin-top: 1.1rem;
-      font-size: 0.8rem;
+      gap: .35rem;
+      margin-top: 1rem;
+      font-size: .79rem;
     }
-
-    .hero-flow-line .flow-chip {
-      padding: 0.3rem 0.65rem;
+    .flow-chip {
+      padding: .28rem .62rem;
       border-radius: 999px;
       border: 1px solid #1f2937;
-      background: rgba(15, 23, 42, 0.9);
+      background: rgba(15,23,42,.9);
     }
-
-    .hero-flow-line .flow-metric {
-      color: var(--accent-soft);
-      border-color: rgba(34, 197, 94, 0.6);
-    }
-
-    .hero-flow-line .flow-arrow {
-      flex: 0 0 auto;
-      font-size: 0.85rem;
-      color: #4b5563;
-    }
-
+    .flow-metric { color: var(--accent-soft); border-color: rgba(34,197,94,.6); }
+    .flow-arrow  { flex: 0 0 auto; color: #4b5563; font-size: .85rem; }
+ 
+    /* ── HERO KPI BOX ── */
     .hero-graphic {
       background: radial-gradient(circle at top, #020617 0, #02010b 60%);
       border-radius: 1rem;
-      border: 1px solid var(--border-soft);
+      border: 1px solid var(--border);
       padding: 1.15rem 1.2rem;
-      box-shadow: 0 22px 50px rgba(0, 0, 0, 0.7);
+      box-shadow: 0 22px 50px rgba(0,0,0,.7);
+      position: sticky;
+      top: 1.5rem;
     }
-
     .hero-graphic-title {
-      font-size: 0.78rem;
+      font-size: .77rem;
       text-transform: uppercase;
-      letter-spacing: 0.16em;
+      letter-spacing: .16em;
       color: var(--text-muted);
       margin-bottom: 1rem;
     }
-
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: .7rem;
+    }
+    .metric {
+      padding: .6rem .7rem;
+      border-radius: .75rem;
+      background: rgba(15,23,42,.95);
+      border: 1px solid #111827;
+      font-size: .79rem;
+    }
+    .metric-label  { color: var(--text-muted); display: block; margin-bottom: .1rem; }
+    .metric-value  { color: var(--accent-soft); font-weight: 600; font-size: .88rem; display: block; }
+    /* Mise en avant du chiffre principal */
+    .metric.highlight { border-color: rgba(0,184,148,.5); background: rgba(0,184,148,.07); }
+    .metric.highlight .metric-value { color: var(--accent); font-size: 1rem; }
+ 
+    /* ── SECTIONS GRILLE ── */
     .sections {
       display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.2fr);
+      grid-template-columns: repeat(2, minmax(0,1fr));
       gap: 1.75rem;
       margin-top: 2.5rem;
     }
-
     .card {
       background: radial-gradient(circle at top left, #020617 0, var(--card-bg) 60%);
       border-radius: 1rem;
-      border: 1px solid var(--border-soft);
+      border: 1px solid var(--border);
       padding: 1.4rem 1.5rem 1.5rem;
-      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7);
+      box-shadow: 0 20px 45px rgba(0,0,0,.7);
     }
-
-    .card h2 {
-      font-size: 1rem;
-      margin-bottom: 0.6rem;
-    }
-
-    .card p {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      margin-bottom: 0.6rem;
-    }
-
-    .card ul {
-      list-style: none;
-      margin-top: 0.2rem;
-      color: var(--text-muted);
-      font-size: 0.86rem;
-    }
-
-    .card ul li {
-      margin-bottom: 0.25rem;
-    }
-
+    .card h2    { font-size: 1rem; margin-bottom: .55rem; }
+    .card p     { font-size: .9rem; color: var(--text-muted); margin-bottom: .55rem; }
+    .card ul    { list-style: none; color: var(--text-muted); font-size: .86rem; }
+    .card ul li { margin-bottom: .3rem; padding-left: 1.1em; position: relative; }
+    .card ul li::before { content: '›'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
     .badge {
       display: inline-block;
-      font-size: 0.7rem;
+      font-size: .7rem;
       text-transform: uppercase;
-      letter-spacing: 0.12em;
+      letter-spacing: .12em;
       color: var(--accent-blue);
-      margin-bottom: 0.5rem;
+      margin-bottom: .45rem;
     }
-
-    .metrics {
+ 
+    /* ── POURQUOI MAINTENANT ── */
+    .section-full {
+      margin-top: 1.75rem;
+      padding: 1.6rem 1.75rem;
+      border-radius: 1rem;
+      border: 1px solid var(--border);
+      background: radial-gradient(circle at top left, #030a1c 0, var(--card-bg) 60%);
+      box-shadow: 0 20px 45px rgba(0,0,0,.7);
+    }
+    .section-full h2  { font-size: 1rem; margin-bottom: .7rem; }
+    .why-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0.7rem;
-      margin-top: 0.7rem;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1rem;
+      margin-top: .5rem;
     }
-
-    .metric {
-      padding: 0.6rem 0.7rem;
-      border-radius: 0.75rem;
-      background: rgba(15, 23, 42, 0.95);
-      border: 1px solid #111827;
-      font-size: 0.8rem;
+    .why-item {
+      padding: .85rem 1rem;
+      border-radius: .75rem;
+      border: 1px solid #1a2740;
+      background: rgba(15,23,42,.8);
     }
-
-    .metric span {
-      display: block;
-    }
-
-    .metric-label {
-      color: var(--text-muted);
-      margin-bottom: 0.1rem;
-    }
-
-    .metric-value {
-      color: var(--accent-soft);
-      font-weight: 600;
-      font-size: 0.88rem;
-    }
-
-    .team-list {
-      margin-top: 0.3rem;
-      font-size: 0.86rem;
-      color: var(--text-muted);
-    }
-
-    .team-list strong {
-      color: #E5F0FF;
-      font-weight: 600;
-    }
-
-    .solution-illustration {
-      margin-top: 0.9rem;
-      width: 100%;
-      border-radius: 0.75rem;
-      border: 1px solid #111827;
-      display: block;
-    }
-
-    .solution-illustration-btn {
-      border: none;
-      background: none;
-      padding: 0;
-      cursor: zoom-in;
-      display: block;
-      width: 100%;
-    }
-
+    .why-item .why-icon { font-size: 1.3rem; margin-bottom: .4rem; }
+    .why-item strong    { display: block; font-size: .88rem; color: var(--text-main); margin-bottom: .2rem; }
+    .why-item span      { font-size: .8rem; color: var(--text-muted); }
+ 
+    /* ── ÉQUIPE ── */
+    .team-list p           { margin-bottom: .55rem; font-size: .86rem; color: var(--text-muted); }
+    .team-list strong      { color: var(--text-main); font-weight: 600; }
+    .team-list .team-title { font-size: .75rem; color: var(--accent-blue); display: block; margin-top: .05rem; }
+ 
+    /* ── SOLUTION IMAGE ── */
+    .solution-illustration      { width: 100%; border-radius: .75rem; border: 1px solid var(--border); margin-top: .9rem; display: block; cursor: zoom-in; }
+    .solution-illustration:hover{ opacity: .9; }
+ 
+    /* ── FORMULAIRE DE CONTACT ── */
     .cta-section {
       margin-top: 2.3rem;
-      padding: 1.8rem 1.6rem 1.7rem;
+      padding: 2rem 1.75rem;
       border-radius: 1rem;
-      border: 1px solid rgba(0, 184, 148, 0.5);
-      background: radial-gradient(circle at top left, rgba(0, 184, 148, 0.12), transparent 60%);
+      border: 1px solid rgba(0,184,148,.5);
+      background: radial-gradient(circle at top left, rgba(0,184,148,.1), transparent 60%);
     }
-
-    .cta-section h2 {
-      font-size: 1rem;
-      margin-bottom: 0.4rem;
+    .cta-section h2 { font-size: 1.05rem; margin-bottom: .4rem; }
+    .cta-section > .lang-block > p { font-size: .9rem; color: var(--text-muted); margin-bottom: 1.2rem; }
+ 
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: .75rem;
+      margin-bottom: .75rem;
     }
-
-    .cta-section p {
-      font-size: 0.9rem;
+    .form-grid .span2 { grid-column: 1 / -1; }
+    .field label {
+      display: block;
+      font-size: .78rem;
       color: var(--text-muted);
-      margin-bottom: 0.9rem;
+      margin-bottom: .3rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
     }
-
-    .cta-actions {
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      background: rgba(15,23,42,.9);
+      border: 1px solid #1f2937;
+      border-radius: .5rem;
+      color: var(--text-main);
+      font-size: .9rem;
+      padding: .6rem .75rem;
+      outline: none;
+      font-family: inherit;
+      transition: border-color .15s;
+    }
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus { border-color: var(--accent); }
+    .field textarea { resize: vertical; min-height: 90px; }
+    .field select option { background: #0d1117; }
+    .form-footer {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.75rem;
       align-items: center;
-      margin-top: 0.3rem;
+      justify-content: space-between;
+      gap: .75rem;
+      margin-top: .75rem;
     }
-
-    .cta-secondary {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-    }
-
-    .cta-secondary a {
+    .form-note { font-size: .78rem; color: var(--text-muted); }
+    /* Message de succès */
+    .form-success {
+      display: none;
+      padding: 1.2rem 1.4rem;
+      border-radius: .75rem;
+      border: 1px solid rgba(0,184,148,.5);
+      background: rgba(0,184,148,.08);
       color: var(--accent-soft);
-      text-decoration: underline;
-      text-decoration-color: rgba(190, 242, 100, 0.6);
+      font-size: .92rem;
+      margin-top: .5rem;
     }
-
+ 
+    /* ── FOOTER ── */
     footer {
       max-width: 1040px;
       margin: 0 auto;
       padding: 1.5rem 1.25rem 2rem;
-      font-size: 0.8rem;
+      font-size: .8rem;
       color: var(--text-muted);
-      border-top: 1px solid #111827;
+      border-top: 1px solid var(--border);
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
-      gap: 0.75rem;
+      gap: .75rem;
     }
-
-    .lang-block {
-      display: none;
-    }
-
-    .lang-block.active {
-      display: block;
-    }
-
-    /* Lightbox */
+    footer a { color: var(--accent-soft); }
+ 
+    /* ── LIGHTBOX ── */
     .lightbox-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 23, 42, 0.92);
+      position: fixed; inset: 0;
+      background: rgba(15,23,42,.95);
       display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
+      align-items: center; justify-content: center;
+      z-index: 9999; cursor: zoom-out;
     }
-
-    .lightbox-overlay.active {
-      display: flex;
-    }
-
+    .lightbox-overlay.active { display: flex; }
     .lightbox-overlay img {
-      max-width: 95vw;
-      max-height: 90vh;
-      border-radius: 0.75rem;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9);
-      border: 1px solid #111827;
+      max-width: 95vw; max-height: 90vh;
+      border-radius: .75rem;
+      box-shadow: 0 25px 60px rgba(0,0,0,.9);
+      border: 1px solid var(--border);
     }
-
+ 
+    /* ── LANG TOGGLE ── */
+    .lang-block        { display: none; }
+    .lang-block.active { display: block; }
+ 
+    /* ── RESPONSIVE ── */
     @media (max-width: 820px) {
-      header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.6rem;
-      }
-
-      .hero {
-        grid-template-columns: minmax(0, 1fr);
-      }
-
-      .hero-graphic {
-        order: -1;
-      }
-
-      .sections {
-        grid-template-columns: minmax(0, 1fr);
-      }
-
-      footer {
-        flex-direction: column;
-        align-items: flex-start;
-      }
+      .hero         { grid-template-columns: 1fr; }
+      .hero-graphic { position: static; order: -1; }
+      .sections     { grid-template-columns: 1fr; }
+      .form-grid    { grid-template-columns: 1fr; }
+      .form-grid .span2 { grid-column: 1; }
+      footer        { flex-direction: column; }
+    }
+    @media (max-width: 480px) {
+      .why-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-
+ 
+<!-- ═══════════════════════════════════════════
+     HEADER
+     ═══════════════════════════════════════════ -->
 <header>
   <div class="logo">
     <div class="logo-badge">T</div>
-    <span>TakaPlast • Kinshasa</span>
+    <span>TakaPlast · Kinshasa</span>
   </div>
   <div class="lang-switch">
-    <button id="btn-fr" class="active" type="button">FR</button>
-    <span>|</span>
-    <button id="btn-en" type="button">EN</button>
+    <button id="btn-fr" class="active" type="button" aria-label="Version française">FR</button>
+    <span aria-hidden="true">|</span>
+    <button id="btn-en" type="button" aria-label="English version">EN</button>
   </div>
 </header>
-
+ 
 <main>
-
-  <!-- HERO -->
+ 
+  <!-- ═══════════════════════════════════════════
+       HERO
+       ═══════════════════════════════════════════ -->
   <section class="hero">
     <div class="hero-copy">
-      <!-- FR -->
+ 
+      <!-- ── FR ── -->
       <div class="lang-block lang-fr active">
-        <h1 class="hero-title">TakaPlast – Transformer les plastiques de Kinshasa en valeur</h1>
+        <!-- STATUT_LEVEE : modifier le texte du badge ici -->
+        <div class="levee-badge">Levée en cours — Clôture cible Q3&nbsp;2026</div>
+        <h1 class="hero-title">Transformer les plastiques de Kinshasa en valeur</h1>
         <p class="hero-subtitle">
-          Projet industriel de recyclage des déchets plastiques, créateur de valeur économique et d’impact climat en RDC.
+          Premier projet industriel tri-flux de recyclage plastique en RDC.
+          Granulés HDPE/PP · Pavés BTP · GPL/Syngas.
         </p>
+        <!-- Mission terrain — signal de crédibilité -->
+        <div class="mission-badge">
+          ✓&nbsp; Paramètres validés — Mission terrain Kinshasa, Mars 2026
+        </div>
         <div class="hero-cta">
-          <a href="TakaPlast_Investor_Teaser.pdf" download>
-            <button class="btn-primary" type="button">Recevoir le teaser investisseur</button>
-          </a>
-          <span class="hero-note">Version synthétique, détaillant CAPEX, ROI et impact à haut niveau.</span>
+          <!-- CTA principal : scroll vers le formulaire (plus de PDF direct) -->
+          <a href="#contact"><button class="btn-primary" type="button">Demander le Pitch Deck</button></a>
+          <a href="#contact"><button class="btn-secondary" type="button">Prendre contact</button></a>
         </div>
         <div class="hero-tags">
           <span class="tag">Recyclage industriel</span>
           <span class="tag">Climat &amp; impact</span>
           <span class="tag">Afrique centrale</span>
+          <span class="tag">RDC — Kinkole</span>
         </div>
         <div class="hero-flow-line">
-          <span class="flow-chip">Déchets plastiques urbains</span>
+          <span class="flow-chip">Déchets plastiques</span>
           <span class="flow-arrow">⟶</span>
-          <span class="flow-chip">Collecte &amp; pré‑traitement</span>
+          <span class="flow-chip">Collecte &amp; tri</span>
           <span class="flow-arrow">⟶</span>
-          <span class="flow-chip">Unité TakaPlast (3 flux)</span>
+          <span class="flow-chip">Unité TakaPlast</span>
           <span class="flow-arrow">⟶</span>
-          <span class="flow-chip">Pellets • Pavers • LPG</span>
+          <span class="flow-chip">Granulés · Pavés · GPL</span>
           <span class="flow-arrow">⟶</span>
           <span class="flow-chip flow-metric">Revenus &amp; tCO₂ évitées</span>
         </div>
       </div>
-
-      <!-- EN -->
+ 
+      <!-- ── EN ── -->
       <div class="lang-block lang-en">
-        <h1 class="hero-title">TakaPlast – Turning Kinshasa’s plastic waste into value</h1>
+        <!-- STATUT_LEVEE EN -->
+        <div class="levee-badge">Fundraising open — Target close Q3&nbsp;2026</div>
+        <h1 class="hero-title">Turning Kinshasa's plastic waste into value</h1>
         <p class="hero-subtitle">
-          Industrial recycling project turning plastic waste into economic returns and climate impact in the DRC.
+          DRC's first tri-stream industrial plastic recycling project.
+          HDPE/PP pellets · Paving stones · LPG/Syngas.
         </p>
+        <div class="mission-badge">
+          ✓&nbsp; Parameters field-validated — Kinshasa mission, March 2026
+        </div>
         <div class="hero-cta">
-          <a href="TakaPlast_Investor_Teaser.pdf" download>
-            <button class="btn-primary" type="button">Get the investor teaser</button>
-          </a>
-          <span class="hero-note">Concise document with high‑level CAPEX, returns and impact.</span>
+          <a href="#contact"><button class="btn-primary" type="button">Request the Pitch Deck</button></a>
+          <a href="#contact"><button class="btn-secondary" type="button">Get in touch</button></a>
         </div>
         <div class="hero-tags">
           <span class="tag">Industrial recycling</span>
           <span class="tag">Climate &amp; impact</span>
           <span class="tag">Central Africa</span>
+          <span class="tag">DRC — Kinkole</span>
         </div>
         <div class="hero-flow-line">
-          <span class="flow-chip">Urban plastic waste</span>
+          <span class="flow-chip">Plastic waste</span>
           <span class="flow-arrow">⟶</span>
-          <span class="flow-chip">Collection &amp; pre‑treatment</span>
+          <span class="flow-chip">Collection &amp; sorting</span>
           <span class="flow-arrow">⟶</span>
-          <span class="flow-chip">TakaPlast plant (3 streams)</span>
+          <span class="flow-chip">TakaPlast plant</span>
           <span class="flow-arrow">⟶</span>
-          <span class="flow-chip">Pellets • Pavers • LPG</span>
+          <span class="flow-chip">Pellets · Pavers · LPG</span>
           <span class="flow-arrow">⟶</span>
           <span class="flow-chip flow-metric">Revenues &amp; tCO₂ avoided</span>
         </div>
       </div>
     </div>
-
+ 
+    <!-- ── KPI BOX DROITE ── -->
+    <!-- CHIFFRES : modifier les valeurs ici (ou dans la section CONFIG en tête de fichier) -->
     <aside class="hero-graphic">
-      <!-- FR -->
+ 
       <div class="lang-block lang-fr active">
-        <div class="hero-graphic-title">TakaPlast en chiffres clés</div>
+        <div class="hero-graphic-title">TakaPlast — chiffres clés</div>
         <div class="metrics">
-          <div class="metric">
-            <span class="metric-label">Capacité cible</span>
-            <span class="metric-value">50&nbsp;t/jour • 18&nbsp;250&nbsp;t/an</span>
+          <div class="metric highlight">
+            <span class="metric-label">Besoin financement</span>
+            <span class="metric-value">8&nbsp;166&nbsp;074&nbsp;$</span>
           </div>
           <div class="metric">
-            <span class="metric-label">CAPEX total</span>
-            <span class="metric-value">≈ 9&nbsp;M&nbsp;$</span>
+            <span class="metric-label">CAPEX industriel</span>
+            <span class="metric-value">5&nbsp;868&nbsp;060&nbsp;$</span>
           </div>
           <div class="metric">
-            <span class="metric-label">Payback CAPEX</span>
-            <span class="metric-value">18–22&nbsp;mois</span>
+            <span class="metric-label">Payback cible</span>
+            <span class="metric-value">22&nbsp;mois</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">ROI 5 ans (net)</span>
+            <span class="metric-value">&gt;&nbsp;400&nbsp;%</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">EBITDA An3</span>
+            <span class="metric-value">7,7&nbsp;M$ (66&nbsp;%)</span>
           </div>
           <div class="metric">
             <span class="metric-label">Impact climat</span>
             <span class="metric-value">55&nbsp;080&nbsp;tCO₂eq/an</span>
           </div>
+          <div class="metric">
+            <span class="metric-label">Capacité Phase 1</span>
+            <span class="metric-value">50&nbsp;t/j · 18&nbsp;250&nbsp;t/an</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Emplois créés</span>
+            <span class="metric-value">164&nbsp;(114 directs)</span>
+          </div>
         </div>
       </div>
-
-      <!-- EN -->
+ 
       <div class="lang-block lang-en">
-        <div class="hero-graphic-title">TakaPlast in key figures</div>
+        <div class="hero-graphic-title">TakaPlast — key figures</div>
         <div class="metrics">
-          <div class="metric">
-            <span class="metric-label">Target capacity</span>
-            <span class="metric-value">50&nbsp;t/day • 18,250&nbsp;t/year</span>
+          <div class="metric highlight">
+            <span class="metric-label">Total funding requirement</span>
+            <span class="metric-value">US$&nbsp;8,166,074</span>
           </div>
           <div class="metric">
-            <span class="metric-label">Total CAPEX</span>
-            <span class="metric-value">≈ US$&nbsp;9&nbsp;M</span>
+            <span class="metric-label">Industrial CAPEX</span>
+            <span class="metric-value">US$&nbsp;5,868,060</span>
           </div>
           <div class="metric">
-            <span class="metric-label">CAPEX payback</span>
-            <span class="metric-value">18–22&nbsp;months</span>
+            <span class="metric-label">Target payback</span>
+            <span class="metric-value">22&nbsp;months</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">5-yr ROI (net)</span>
+            <span class="metric-value">&gt;&nbsp;400&nbsp;%</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">EBITDA Year 3</span>
+            <span class="metric-value">US$7.7&nbsp;M (66&nbsp;%)</span>
           </div>
           <div class="metric">
             <span class="metric-label">Climate impact</span>
-            <span class="metric-value">55,080&nbsp;tCO₂eq/year</span>
+            <span class="metric-value">55,080&nbsp;tCO₂eq/yr</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Phase 1 capacity</span>
+            <span class="metric-value">50&nbsp;t/day · 18,250&nbsp;t/yr</span>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Jobs created</span>
+            <span class="metric-value">164&nbsp;(114 direct)</span>
           </div>
         </div>
       </div>
     </aside>
   </section>
-
-  <!-- MAIN SECTIONS -->
+ 
+ 
+  <!-- ═══════════════════════════════════════════
+       GRILLE 4 CARTES
+       ═══════════════════════════════════════════ -->
   <section class="sections">
-
-    <!-- Problème / Opportunité -->
+ 
+    <!-- ── CONTEXTE ── -->
     <article class="card">
+      <!-- FR -->
       <div class="lang-block lang-fr active">
         <span class="badge">Contexte</span>
-        <h2>Un gisement massif, peu valorisé aujourd’hui</h2>
+        <h2>Un gisement massif, peu valorisé aujourd'hui</h2>
         <p>
-          Kinshasa génère chaque jour des milliers de tonnes de déchets plastiques dont une faible part seulement est collectée et recyclée.
-          Cette situation crée des coûts environnementaux, sanitaires et économiques majeurs pour la ville.
-          En structurant une filière industrielle locale, TakaPlast transforme ce passif en actif stratégique pour le territoire.
+          Kinshasa génère chaque jour <strong style="color:var(--text-main)">1&nbsp;350&nbsp;t de déchets plastiques</strong>,
+          dont moins de 5&nbsp;% sont collectés et recyclés.
+          La ville dispose de 9 centres de recyclage là où l'Île-de-France (12,3&nbsp;M hab.) en compte 50+.
+          Ce déficit structurel crée le marché.
         </p>
+        <ul>
+          <li>Coût de l'inaction RDC : 80–155&nbsp;M$&nbsp;/&nbsp;an (OMS)</li>
+          <li>95&nbsp;% de capacité de traitement plastique en moins vs une métropole équivalente</li>
+          <li>Acteurs informels : collecte sélective uniquement — pas de valorisation énergie ni BTP</li>
+        </ul>
       </div>
+      <!-- EN -->
       <div class="lang-block lang-en">
         <span class="badge">Context</span>
         <h2>A massive, underused resource</h2>
         <p>
-          Every day, Kinshasa generates thousands of tons of plastic waste, with only a small fraction properly collected and recycled.
-          This leads to significant environmental, health and economic costs for the city.
-          By building a local industrial value chain, TakaPlast turns this liability into a strategic asset for the territory.
+          Kinshasa generates <strong style="color:var(--text-main)">1,350&nbsp;t of plastic waste per day</strong>,
+          with under 5&nbsp;% collected or recycled.
+          The city has 9 recycling centres vs 50+ in comparable European metros.
+          This structural gap is the market.
         </p>
+        <ul>
+          <li>Cost of inaction in DRC: US$80–155&nbsp;M/yr (WHO)</li>
+          <li>95&nbsp;% less plastic processing capacity vs a comparable metropolis</li>
+          <li>Informal players: selective collection only — no energy or construction valorisation</li>
+        </ul>
       </div>
     </article>
-
-    <!-- Solution / Modèle + image tri-flux -->
+ 
+    <!-- ── SOLUTION + SCHÉMA ── -->
     <article class="card">
+      <!-- FR -->
       <div class="lang-block lang-fr active">
         <span class="badge">Solution</span>
-        <h2>Une plateforme industrielle de valorisation plastique</h2>
+        <h2>Une plateforme industrielle tri-flux</h2>
         <p>
-          TakaPlast met en place une unité industrielle capable de recevoir, trier et transformer les plastiques en matières premières secondaires prêtes à l’emploi.
-          Le modèle combine contrats d’approvisionnement locaux, industrialisation robuste et débouchés sécurisés vers l’industrie et, à terme, les marchés du carbone.
-          L’objectif&nbsp;: traiter durablement les flux existants tout en générant des revenus récurrents en devise forte.
+          TakaPlast transforme simultanément les déchets plastiques en trois produits à haute valeur ajoutée&nbsp;:
+          granulés HDPE/PP&nbsp;($650/t), pavés BTP ($10/m²) et GPL synthétique ($0,85/L).
+          Le modèle combine approvisionnement local sécurisé, industrialisation robuste (Chine, Inde)
+          et débouchés industrie + marchés carbone.
         </p>
-        <button type="button"
-                class="solution-illustration-btn"
-                data-image="ImageFluxFR.png"
-                aria-label="Agrandir le schéma tri-flux TakaPlast">
-          <img src="ImageFluxFR.png"
-               alt="Schéma tri-flux TakaPlast"
-               class="solution-illustration">
-        </button>
+        <!-- Cliquer pour agrandir -->
+        <img src="ImageFluxFR.png"
+             alt="Schéma tri-flux TakaPlast — granulés, pavés BTP, GPL"
+             class="solution-illustration"
+             id="img-flux-fr"
+             loading="lazy">
       </div>
+      <!-- EN -->
       <div class="lang-block lang-en">
         <span class="badge">Solution</span>
-        <h2>An industrial platform for plastic valorization</h2>
+        <h2>A tri-stream industrial platform</h2>
         <p>
-          TakaPlast is developing an industrial facility able to receive, sort and transform plastic waste into ready‑to‑use secondary raw materials.
-          The model combines local supply contracts, robust industrial operations and secured offtake to industry and, over time, carbon markets.
-          The objective: durably treat existing plastic flows while generating recurring hard‑currency revenues.
+          TakaPlast simultaneously converts plastic waste into three high-value products:
+          HDPE/PP pellets ($650/t), paving stones ($10/m²) and synthetic LPG ($0.85/L).
+          The model combines secured local supply, robust industrial equipment (China, India)
+          and diversified offtake across industry and carbon markets.
         </p>
-        <button type="button"
-                class="solution-illustration-btn"
-                data-image="ImageFluxEN.png"
-                aria-label="Enlarge the TakaPlast tri‑stream diagram">
-          <img src="ImageFluxEN.png"
-               alt="TakaPlast tri‑stream process diagram"
-               class="solution-illustration">
-        </button>
+        <img src="ImageFluxEN.png"
+             alt="TakaPlast tri-stream diagram — pellets, pavers, LPG"
+             class="solution-illustration"
+             id="img-flux-en"
+             loading="lazy">
       </div>
     </article>
-
-    <!-- Economics / Impact -->
+ 
+    <!-- ── ÉCONOMIE & IMPACT ── -->
     <article class="card">
+      <!-- FR -->
       <div class="lang-block lang-fr active">
         <span class="badge">Économie &amp; impact</span>
-        <h2>Des fondamentaux économiques et d’impact attractifs</h2>
-        <p>
-          La conception modulaire de TakaPlast permet un déploiement par phases, en alignant CAPEX, ramp‑up opérationnel et sécurisation des débouchés.
-        </p>
+        <h2>Des fondamentaux attractifs, validés terrain</h2>
+        <p>Paramètres confirmés lors de la mission Kinshasa de Mars 2026.</p>
         <ul>
-          <li>Capacité cible Phase&nbsp;1&nbsp;: 50&nbsp;tonnes de plastiques traités par jour, soit 18&nbsp;250&nbsp;t/an à l’horizon M24.</li>
-          <li>CAPEX industriel total, incluant 10&nbsp;% de contingence&nbsp;: 5,87&nbsp;M$ environ.</li>
-          <li>Besoin de financement total (CAPEX complet + 24&nbsp;mois de fonds de roulement)&nbsp;: 9&nbsp;M$, 100&nbsp;% financés par les investisseurs.</li>
-          <li>Payback cible sur CAPEX&nbsp;: 18–22&nbsp;mois, EBITDA positif dès le mois&nbsp;12 et EBITDA cœur d’activité d’environ 7,8&nbsp;M$ en année&nbsp;3.</li>
-          <li>ROI post‑impôt sur 5&nbsp;ans&nbsp;: environ 400&nbsp;% sur la base du scénario cœur d’activité.</li>
-          <li>Impact environnemental&nbsp;: jusqu’à 55&nbsp;080&nbsp;tCO₂eq évitées par an en vitesse de croisière, soit l’équivalent d’environ 12&nbsp;000 voitures retirées de la circulation.</li>
-          <li>Impact social&nbsp;: 114&nbsp;emplois directs et 50&nbsp;coopératives de collecteurs soutenues à pleine capacité.</li>
+          <li><strong style="color:var(--text-main)">Besoin financement total</strong>&nbsp;: 8&nbsp;166&nbsp;074&nbsp;$ (CAPEX + FR 24 mois) — 100&nbsp;% investisseurs</li>
+          <li>CAPEX industriel (incl. contingence 10&nbsp;%)&nbsp;: 5&nbsp;868&nbsp;060&nbsp;$</li>
+          <li>Fonds de roulement 24 mois&nbsp;: 2&nbsp;298&nbsp;014&nbsp;$</li>
+          <li>EBITDA positif dès le mois&nbsp;12 · EBITDA An3&nbsp;: <strong style="color:var(--accent-soft)">7,7&nbsp;M$ (66&nbsp;%)</strong></li>
+          <li>Payback cible&nbsp;: <strong style="color:var(--accent-soft)">22&nbsp;mois</strong> · ROI 5 ans net&nbsp;: <strong style="color:var(--accent-soft)">&gt;&nbsp;400&nbsp;%</strong></li>
+          <li>Jusqu'à <strong style="color:var(--accent-soft)">55&nbsp;080&nbsp;tCO₂eq</strong> évitées/an · Gold Standard certifiable (An3)</li>
+          <li><strong style="color:var(--accent-orange)">164&nbsp;emplois</strong> (114 directs + 50 coopératives) · 4×&nbsp;SMIG minimum</li>
         </ul>
       </div>
+      <!-- EN -->
       <div class="lang-block lang-en">
         <span class="badge">Economics &amp; impact</span>
-        <h2>Attractive economics and impact fundamentals</h2>
-        <p>
-          TakaPlast’s modular design enables phased deployment, aligning CAPEX, operational ramp‑up and offtake security.
-        </p>
+        <h2>Attractive fundamentals, field-validated</h2>
+        <p>Parameters confirmed during the March 2026 Kinshasa field mission.</p>
         <ul>
-          <li>Target Phase&nbsp;1 capacity: 50&nbsp;tons of plastic processed per day, i.e. 18,250&nbsp;t/year by month&nbsp;24.</li>
-          <li>Total industrial CAPEX including 10&nbsp;% contingency: approx. $5.87&nbsp;M.</li>
-          <li>Total funding requirement (full CAPEX + 24&nbsp;months working capital): approx. $9&nbsp;M, fully funded by investors.</li>
-          <li>Target CAPEX payback: 18–22&nbsp;months, with positive EBITDA from month&nbsp;12 and core‑business EBITDA of about $7.8&nbsp;M in Year&nbsp;3.</li>
-          <li>5‑year post‑tax ROI: around 400&nbsp;% in the core‑business scenario.</li>
-          <li>Environmental impact: up to 55,080&nbsp;tCO₂eq avoided per year at full capacity, equivalent to roughly 12,000 cars removed from the road.</li>
-          <li>Social impact: 114&nbsp;direct jobs and 50&nbsp;collector cooperatives supported at full capacity.</li>
+          <li><strong style="color:var(--text-main)">Total funding requirement</strong>: US$&nbsp;8,166,074 (CAPEX + 24-month WC) — 100&nbsp;% investor-funded</li>
+          <li>Industrial CAPEX (incl. 10&nbsp;% contingency): US$&nbsp;5,868,060</li>
+          <li>Working capital 24 months: US$&nbsp;2,298,014</li>
+          <li>Positive EBITDA from month&nbsp;12 · Year&nbsp;3 EBITDA: <strong style="color:var(--accent-soft)">US$7.7&nbsp;M (66&nbsp;%)</strong></li>
+          <li>Target payback: <strong style="color:var(--accent-soft)">22&nbsp;months</strong> · 5-yr net ROI: <strong style="color:var(--accent-soft)">&gt;&nbsp;400&nbsp;%</strong></li>
+          <li>Up to <strong style="color:var(--accent-soft)">55,080&nbsp;tCO₂eq</strong> avoided/yr · Gold Standard-certifiable (Year 3)</li>
+          <li><strong style="color:var(--accent-orange)">164&nbsp;jobs</strong> (114 direct + 50 cooperatives) · 4× minimum wage</li>
         </ul>
       </div>
     </article>
-
-    <!-- Équipe -->
+ 
+    <!-- ── BLOC ÉQUIPE ── -->
+    <!-- Pour ajouter / retirer un membre : copier / supprimer un bloc <p> ci-dessous -->
+    <!-- Pour modifier un membre : changer le texte entre les balises -->
     <article class="card">
+      <!-- FR -->
       <div class="lang-block lang-fr active">
         <span class="badge">Équipe</span>
         <h2>Une équipe ancrée localement, connectée aux investisseurs</h2>
-        <p>
-          TakaPlast est portée par une équipe mêlant expérience en gestion de projets industriels, finance climat et opérations terrain en Afrique centrale.
-        </p>
         <div class="team-list">
-          <p><strong>Joël M'Bavu Oxybel</strong> – Fondateur &amp; Directeur de projet : gestion de projets et structuration de financements climat entre l’Europe et l’Afrique.</p>
-          <p><strong>Serge Kabeya Tshishimbi</strong> – Opérations Kinshasa : expérience dans la logistique et la gestion de sites industriels.</p>
-          <p><strong>Wilmot Gibson</strong> – Finance &amp; Structuration : background en finance de projet et structuration d’investissements d’infrastructure.</p>
+          <p>
+            <strong>Joël M'Bavu Oxybel</strong>
+            <span class="team-title">CEO &amp; Fondateur</span>
+            16+ ans management stratégique &amp; P&amp;L · Structuration financements entre Europe et Afrique · Mission terrain Kinshasa 2026.
+          </p>
+          <p>
+            <strong>Serge Kabeya Tshishimbi</strong>
+            <span class="team-title">Responsable Opérations Kinshasa</span>
+            Expérience en logistique et gestion de sites industriels en RDC.
+          </p>
+          <p>
+            <strong>Wilmot Gibson</strong>
+            <span class="team-title">Finance &amp; Relations investisseurs</span>
+            Finance de projet et structuration d'investissements d'infrastructure · Réseau US &amp; UK.
+          </p>
         </div>
       </div>
+      <!-- EN -->
       <div class="lang-block lang-en">
         <span class="badge">Team</span>
-        <h2>A locally rooted, investor‑ready team</h2>
-        <p>
-          TakaPlast is led by a team combining experience in industrial project management, climate finance and on‑the‑ground operations in Central Africa.
-        </p>
+        <h2>A locally rooted, investor-ready team</h2>
         <div class="team-list">
-          <p><strong>Joël M'Bavu Oxybel</strong> – Founder &amp; Project Lead: experience in project management and climate finance structuring between Europe and Africa.</p>
-          <p><strong>Serge Kabeya Tshishimbi</strong> – Kinshasa Operations: background in logistics and industrial site management.</p>
-          <p><strong>Wilmot Gibson</strong> – Finance &amp; Structuring: track record in project finance and infrastructure investment structuring.</p>
+          <p>
+            <strong>Joël M'Bavu Oxybel</strong>
+            <span class="team-title">CEO &amp; Founder</span>
+            16+ yrs strategic management &amp; P&amp;L · Climate finance structuring between Europe and Africa · Kinshasa field mission 2026.
+          </p>
+          <p>
+            <strong>Serge Kabeya Tshishimbi</strong>
+            <span class="team-title">Kinshasa Operations</span>
+            Logistics and industrial site management experience in DRC.
+          </p>
+          <p>
+            <strong>Wilmot Gibson</strong>
+            <span class="team-title">Finance &amp; Investor Relations</span>
+            Project finance and infrastructure investment structuring · US &amp; UK network.
+          </p>
         </div>
       </div>
     </article>
-
-  </section>
-
-  <!-- Lightbox overlay -->
-  <div id="image-lightbox" class="lightbox-overlay" aria-hidden="true">
-    <img src="" alt="Agrandissement illustration TakaPlast">
-  </div>
-
-  <!-- CTA / CONTACT -->
-  <section id="contact" class="cta-section">
+ 
+  </section><!-- /.sections -->
+ 
+ 
+  <!-- ═══════════════════════════════════════════
+       POURQUOI MAINTENANT
+       ═══════════════════════════════════════════ -->
+  <section class="section-full">
+ 
+    <!-- FR -->
     <div class="lang-block lang-fr active">
+      <span class="badge">Timing</span>
+      <h2>Pourquoi investir maintenant ?</h2>
+      <div class="why-grid">
+        <div class="why-item">
+          <div class="why-icon">📈</div>
+          <strong>Marché mondial en forte croissance</strong>
+          <span>Recyclage plastique : 57&nbsp;Md$ (2023) → 95&nbsp;Md$ (2030) · CAGR&nbsp;+7,5&nbsp;% · Afrique subsaharienne quasi-vierge.</span>
+        </div>
+        <div class="why-item">
+          <div class="why-icon">🏆</div>
+          <strong>Modèles africains prouvés</strong>
+          <span>Mr. Green Africa (Kenya) · Trashy Bags (Ghana) · Extrupet (Afrique du Sud) : même modèle, levées &gt;40&nbsp;M$ cumulés.</span>
+        </div>
+        <div class="why-item">
+          <div class="why-icon">🔑</div>
+          <strong>First-mover tri-flux en RDC</strong>
+          <span>Aucun acteur ne combine granulés + BTP + énergie à Kinshasa. Le fossé compétitif est structurel.</span>
+        </div>
+        <div class="why-item">
+          <div class="why-icon">✅</div>
+          <strong>Paramètres terrain confirmés</strong>
+          <span>Mission Kinshasa Mars 2026 : fournisseurs, approvisionnement ($30/t), clients, site Kinkole, institutions (INPP, ANAPI, Présidence) — prêt au closing.</span>
+        </div>
+      </div>
+    </div>
+ 
+    <!-- EN -->
+    <div class="lang-block lang-en">
+      <span class="badge">Timing</span>
+      <h2>Why invest now?</h2>
+      <div class="why-grid">
+        <div class="why-item">
+          <div class="why-icon">📈</div>
+          <strong>Fast-growing global market</strong>
+          <span>Plastic recycling: $57Bn (2023) → $95Bn (2030) · CAGR +7.5% · Sub-Saharan Africa virtually untapped.</span>
+        </div>
+        <div class="why-item">
+          <div class="why-icon">🏆</div>
+          <strong>African models proven</strong>
+          <span>Mr. Green Africa (Kenya) · Trashy Bags (Ghana) · Extrupet (South Africa): same model, combined raises &gt;$40M.</span>
+        </div>
+        <div class="why-item">
+          <div class="why-icon">🔑</div>
+          <strong>First-mover tri-stream in DRC</strong>
+          <span>No player combines pellets + paving + energy in Kinshasa. The competitive moat is structural.</span>
+        </div>
+        <div class="why-item">
+          <div class="why-icon">✅</div>
+          <strong>Field parameters confirmed</strong>
+          <span>Kinshasa mission March 2026: suppliers, feedstock ($30/t), clients, Kinkole site, institutions (INPP, ANAPI, Presidency) — ready to close.</span>
+        </div>
+      </div>
+    </div>
+ 
+  </section>
+ 
+ 
+  <!-- ═══════════════════════════════════════════
+       FORMULAIRE DE CONTACT
+       ─────────────────────────────────────────
+       FORMSPREE : remplacer YOUR_FORMSPREE_ID
+       par votre ID Formspree (ex: xwkgjpqo)
+       Voir instructions en tête de fichier.
+       ═══════════════════════════════════════════ -->
+  <section id="contact" class="cta-section">
+ 
+    <!-- FR -->
+    <div class="lang-block lang-fr active">
+      <span class="badge" style="color:var(--accent)">Contact investisseur</span>
       <h2>Intéressé par TakaPlast&nbsp;?</h2>
       <p>
-        Nous partageons un teaser investisseur détaillant le projet, son CAPEX, ses flux économiques et son calendrier,
-        sur demande et dans un cadre confidentiel adapté aux investisseurs professionnels.
+        Remplissez ce formulaire pour recevoir le Pitch Deck complet (28 slides, Budget v1.5) et entrer en conversation directe avec l'équipe.
+        Nous répondons sous 48&nbsp;h.
       </p>
-      <p>
-        Vous êtes fonds d’infrastructure, investisseur climat ou family office&nbsp;? Contactez‑nous pour recevoir le teaser
-        et échanger sur les modalités d’investissement.
-      </p>
-      <div class="cta-actions">
-        <a href="mailto:contact@takaplast.com?subject=TakaPlast%20-%20Demande%20de%20teaser%20investisseur">
-          <button class="btn-primary" type="button">Discuter avec TakaPlast</button>
-        </a>
+ 
+      <!-- Le formulaire envoie les données à Formspree → email Joël -->
+      <form id="form-fr"
+            action="https://formspree.io/f/YOUR_FORMSPREE_ID"
+            method="POST">
+ 
+        <!-- Champ caché : indique la langue -->
+        <input type="hidden" name="_language" value="Français">
+        <!-- Champ caché : sujet de l'email reçu par Joël -->
+        <input type="hidden" name="_subject" value="TakaPlast — Demande Pitch Deck">
+        <!-- Redirection après envoi : désactivé (on gère en JS) -->
+        <input type="hidden" name="_next" value="about:blank">
+ 
+        <div class="form-grid">
+          <div class="field">
+            <label for="nom-fr">Nom complet *</label>
+            <input id="nom-fr" name="nom" type="text" required placeholder="Jean Dupont">
+          </div>
+          <div class="field">
+            <label for="email-fr">Email professionnel *</label>
+            <input id="email-fr" name="email" type="email" required placeholder="jean@fonds.com">
+          </div>
+          <div class="field">
+            <label for="org-fr">Organisation</label>
+            <input id="org-fr" name="organisation" type="text" placeholder="Nom du fonds / famille">
+          </div>
+          <div class="field">
+            <label for="type-fr">Profil investisseur *</label>
+            <select id="type-fr" name="type_investisseur" required>
+              <option value="">— Sélectionner —</option>
+              <option>Fonds d'infrastructure / impact</option>
+              <option>Family office</option>
+              <option>Business Angel</option>
+              <option>DFI / Institution de développement</option>
+              <option>Investisseur industriel / stratégique</option>
+              <option>Autre</option>
+            </select>
+          </div>
+          <div class="field span2">
+            <label for="msg-fr">Message (optionnel)</label>
+            <textarea id="msg-fr" name="message" placeholder="Questions, calendrier de disponibilité, montant cible…"></textarea>
+          </div>
+        </div>
+ 
+        <div class="form-footer">
+          <button class="btn-primary" type="submit">Recevoir le Pitch Deck →</button>
+          <span class="form-note">🔒&nbsp; Vos coordonnées restent confidentielles.</span>
+        </div>
+      </form>
+      <!-- Message de succès (affiché par JS) -->
+      <div id="success-fr" class="form-success">
+        ✅&nbsp; Message reçu — nous vous envoyons le Pitch Deck sous 48&nbsp;h.
       </div>
     </div>
-
+ 
+    <!-- EN -->
     <div class="lang-block lang-en">
+      <span class="badge" style="color:var(--accent)">Investor contact</span>
       <h2>Interested in TakaPlast?</h2>
       <p>
-        We provide an investor teaser detailing the project, CAPEX envelope, economics and rollout timeline,
-        upon request and under an appropriate confidentiality framework for professional investors.
+        Fill in this form to receive the full Pitch Deck (28 slides, v1.5 budget) and start a direct conversation with the team.
+        We reply within 48&nbsp;hours.
       </p>
-      <p>
-        Are you an infrastructure, climate or family office investor? Reach out to receive the teaser and
-        discuss potential investment structures.
-      </p>
-      <div class="cta-actions">
-        <a href="mailto:contact@takaplast.com?subject=TakaPlast%20-%20Investor%20teaser%20request">
-          <button class="btn-primary" type="button">Talk with TakaPlast</button>
-        </a>
+ 
+      <form id="form-en"
+            action="https://formspree.io/f/YOUR_FORMSPREE_ID"
+            method="POST">
+ 
+        <input type="hidden" name="_language" value="English">
+        <input type="hidden" name="_subject"  value="TakaPlast — Pitch Deck Request">
+        <input type="hidden" name="_next"     value="about:blank">
+ 
+        <div class="form-grid">
+          <div class="field">
+            <label for="name-en">Full name *</label>
+            <input id="name-en" name="name" type="text" required placeholder="Jane Smith">
+          </div>
+          <div class="field">
+            <label for="email-en">Professional email *</label>
+            <input id="email-en" name="email" type="email" required placeholder="jane@fund.com">
+          </div>
+          <div class="field">
+            <label for="org-en">Organisation</label>
+            <input id="org-en" name="organisation" type="text" placeholder="Fund / family name">
+          </div>
+          <div class="field">
+            <label for="type-en">Investor type *</label>
+            <select id="type-en" name="investor_type" required>
+              <option value="">— Select —</option>
+              <option>Infrastructure / impact fund</option>
+              <option>Family office</option>
+              <option>Business Angel</option>
+              <option>DFI / Development institution</option>
+              <option>Industrial / strategic investor</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="field span2">
+            <label for="msg-en">Message (optional)</label>
+            <textarea id="msg-en" name="message" placeholder="Questions, availability, target ticket size…"></textarea>
+          </div>
+        </div>
+ 
+        <div class="form-footer">
+          <button class="btn-primary" type="submit">Request the Pitch Deck →</button>
+          <span class="form-note">🔒&nbsp; Your details remain confidential.</span>
+        </div>
+      </form>
+      <div id="success-en" class="form-success">
+        ✅&nbsp; Message received — we'll send you the Pitch Deck within 48&nbsp;hours.
       </div>
     </div>
+ 
   </section>
-
+ 
 </main>
-
+ 
+<!-- ═══════════════════════════════════════════
+     LIGHTBOX (agrandissement schéma)
+     ═══════════════════════════════════════════ -->
+<div id="lightbox" class="lightbox-overlay" aria-hidden="true" role="dialog">
+  <img src="" alt="Schéma TakaPlast agrandi" id="lightbox-img">
+</div>
+ 
+<!-- ═══════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════ -->
 <footer>
+  <div>© <span id="year"></span>&nbsp;TakaPlast · Kinshasa, RDC · Tous droits réservés.</div>
   <div>
-    © <span id="year"></span> TakaPlast. Tous droits réservés.
-  </div>
-  <div class="cta-secondary">
-    Contact direct&nbsp;:
     <a href="mailto:contact@takaplast.com">contact@takaplast.com</a>
+    &nbsp;·&nbsp;
+    <a href="mailto:joxybel@takaplast.com">joxybel@takaplast.com</a>
   </div>
 </footer>
-
+ 
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT
+     ═══════════════════════════════════════════ -->
 <script>
-  const btnFr = document.getElementById('btn-fr');
-  const btnEn = document.getElementById('btn-en');
+  /* ── Année dans le footer ── */
+  document.getElementById('year').textContent = new Date().getFullYear();
+ 
+  /* ── Changement de langue ── */
+  const btnFr    = document.getElementById('btn-fr');
+  const btnEn    = document.getElementById('btn-en');
   const frBlocks = document.querySelectorAll('.lang-fr');
   const enBlocks = document.querySelectorAll('.lang-en');
-
+ 
   function showLang(lang) {
-    if (lang === 'fr') {
-      frBlocks.forEach(el => el.classList.add('active'));
-      enBlocks.forEach(el => el.classList.remove('active'));
-      btnFr.classList.add('active');
-      btnEn.classList.remove('active');
-      document.documentElement.lang = 'fr';
-    } else {
-      frBlocks.forEach(el => el.classList.remove('active'));
-      enBlocks.forEach(el => el.classList.add('active'));
-      btnFr.classList.remove('active');
-      btnEn.classList.add('active');
-      document.documentElement.lang = 'en';
-    }
+    const isFr = lang === 'fr';
+    frBlocks.forEach(el => el.classList.toggle('active', isFr));
+    enBlocks.forEach(el => el.classList.toggle('active', !isFr));
+    btnFr.classList.toggle('active', isFr);
+    btnEn.classList.toggle('active', !isFr);
+    document.documentElement.lang = lang;
   }
-
+ 
   btnFr.addEventListener('click', () => showLang('fr'));
   btnEn.addEventListener('click', () => showLang('en'));
-
-  document.getElementById('year').textContent = new Date().getFullYear();
-
-  // Lightbox
-  const lightbox = document.getElementById('image-lightbox');
-  const lightboxImg = lightbox.querySelector('img');
-  const imageButtons = document.querySelectorAll('.solution-illustration-btn');
-
-  imageButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const src = btn.getAttribute('data-image');
-      lightboxImg.src = src;
+ 
+  /* Détection automatique de la langue du navigateur */
+  const userLang = (navigator.language || 'fr').toLowerCase();
+  if (!userLang.startsWith('fr')) showLang('en');
+ 
+  /* ── Lightbox (clic sur le schéma) ── */
+  const lightbox    = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+ 
+  ['img-flux-fr', 'img-flux-en'].forEach(id => {
+    const img = document.getElementById(id);
+    if (!img) return;
+    img.addEventListener('click', () => {
+      lightboxImg.src = img.src;
+      lightboxImg.alt = img.alt;
       lightbox.classList.add('active');
       lightbox.setAttribute('aria-hidden', 'false');
     });
   });
-
   lightbox.addEventListener('click', () => {
     lightbox.classList.remove('active');
     lightbox.setAttribute('aria-hidden', 'true');
     lightboxImg.src = '';
   });
+ 
+  /* ── Formulaire Formspree (AJAX — pas de rechargement de page) ── */
+  async function handleForm(formEl, successId) {
+    formEl.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = formEl.querySelector('button[type="submit"]');
+      btn.disabled = true;
+      btn.textContent = '…';
+      try {
+        const res = await fetch(formEl.action, {
+          method: 'POST',
+          body: new FormData(formEl),
+          headers: { 'Accept': 'application/json' }
+        });
+        if (res.ok) {
+          formEl.style.display = 'none';
+          document.getElementById(successId).style.display = 'block';
+        } else {
+          btn.disabled = false;
+          btn.textContent = formEl.id === 'form-fr' ? 'Recevoir le Pitch Deck →' : 'Request the Pitch Deck →';
+          alert('Erreur lors de l\'envoi. Veuillez réessayer ou écrire directement à contact@takaplast.com');
+        }
+      } catch {
+        btn.disabled = false;
+        btn.textContent = formEl.id === 'form-fr' ? 'Recevoir le Pitch Deck →' : 'Request the Pitch Deck →';
+        alert('Erreur réseau. Veuillez écrire directement à contact@takaplast.com');
+      }
+    });
+  }
+ 
+  const formFr = document.getElementById('form-fr');
+  const formEn = document.getElementById('form-en');
+  if (formFr) handleForm(formFr, 'success-fr');
+  if (formEn) handleForm(formEn, 'success-en');
 </script>
-
+ 
 </body>
 </html>
