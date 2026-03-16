@@ -288,7 +288,7 @@ const DOCS = [
     desc_en:'Full business plan. Validated structure, tri-stream operational at M8.' },
 
   { folder:'project',
-    name:'TakaPlast_Budget', type:'xlsx', langs:['fr'],
+    name:'TakaPlast_Budget', type:'xlsx', langs:['fr','en'],
     name_fr:'Budget Financier', name_en:'Financial Model',
     desc_fr:'Modèle financier dynamique. CAPEX · OPEX · Revenus · Working Capital · Subventions.',
     desc_en:'Dynamic financial model. CAPEX · OPEX · Revenue · Working Capital · Subsidies.' },
@@ -577,38 +577,13 @@ function createCard(doc, hasFR, hasEN) {
       </button>
     </div>`;
 
-  // Download handler — fetch+blob (same as ZIP, bypasses browser popup block)
-  card.querySelector('.dl-btn').addEventListener('click', async function() {
+  // Download handler — direct navigation (works for same-origin binary files)
+  card.querySelector('.dl-btn').addEventListener('click', function() {
     if (!sessionOk()) { location.reload(); return; }
-    const btn = this;
-    const d = DOCS[parseInt(btn.dataset.doc)];
-    const hasFR = btn.dataset.hasFr === 'true';
-    const hasEN = btn.dataset.hasEn === 'true';
+    const d = DOCS[parseInt(this.dataset.doc)];
     const l = lang; // strict — only serve the displayed language
     const path = filePath(d, l);
-    const filename = `${l.toUpperCase()}_${d.name}.${d.type}`;
-
-    // Visual feedback
-    const origHTML = btn.innerHTML;
-    btn.disabled = true;
-    btn.innerHTML = DL_ICON + ' <span>…</span>';
-
-    try {
-      const resp = await fetch(path);
-      if (!resp.ok) throw new Error('fetch failed');
-      const blob = await resp.blob();
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = filename;
-      a.click();
-      setTimeout(() => URL.revokeObjectURL(url), 8000);
-    } catch(e) {
-      // Fallback: open in new tab
-      window.open(path, '_blank');
-    } finally {
-      setTimeout(() => { btn.disabled = false; btn.innerHTML = origHTML; }, 1500);
-    }
+    window.location.href = path;
   });
 
   // Update button state when lang changes
