@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="fr">
+<!--
+╔══════════════════════════════════════════════════════════════════════════╗
+║  TAKAPLAST — ESPACE INVESTISSEUR — vault.html                            ║
+╠══════════════════════════════════════════════════════════════════════════╣
+║  CHANGER LE MOT DE PASSE :                                               ║
+║  1. Ouvrir la console (F12) sur vault.html                               ║
+║  2. Taper : await genHash("VotreNouveauMotDePasse")                      ║
+║  3. Copier les 3 valeurs P1/P2/P3 retournées                            ║
+║  4. Remplacer _a, _b, _c dans le script ci-dessous                       ║
+║                                                                          ║
+║  AJOUTER UN FICHIER :                                                    ║
+║  Déposer dans /docs/ avec préfixe FR_ ou EN_                             ║
+║  Ajouter une entrée dans DOCS ci-dessous                                 ║
+║                                                                          ║
+║  ⚠️  SÉCURITÉ GITHUB PAGES                                               ║
+║  Le vault protège l'affichage et les chemins de fichiers.                ║
+║  Pour une protection serveur complète → migrer sur Netlify/Vercel        ║
+║  avec une serverless function (voir README_SECURITY.md)                  ║
+╚══════════════════════════════════════════════════════════════════════════╝
+-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TakaPlast · Espace Investisseur</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#020617;--surface:#050b1f;--surface-2:#091224;--accent:#00B894;--accent-soft:#55efc4;--accent-dim:rgba(0,184,148,.12);--red:#EF4444;--text:#E5F0FF;--muted:#64748B;--border:#0f1f35;--mono:'DM Mono',monospace;--sans:'Syne',system-ui,sans-serif}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,184,148,.04)1px,transparent 1px),linear-gradient(90deg,rgba(0,184,148,.04)1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+
+    /* HEADER */
+    header{position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:1.4rem 2rem;border-bottom:1px solid var(--border);background:rgba(2,6,23,.85);backdrop-filter:blur(12px)}
+    .logo{display:flex;align-items:center;gap:.6rem;font-weight:700;font-size:.88rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:var(--text)}
+    .logo-dot{width:24px;height:24px;border-radius:50%;border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;font-size:.7rem;color:var(--accent)}
+    .header-right{display:flex;align-items:center;gap:1.25rem}
+    .lang-switch{display:flex;gap:.6rem;align-items:center}
+    .lang-switch button{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.82rem;font-family:var(--mono);padding:.15rem .3rem;transition:color .15s}
+    .lang-switch button.active{color:var(--accent-soft);font-weight:600}
+    .vault-badge{display:flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.72rem;color:var(--muted)}
+    .vault-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
+
+    /* LANG */
+    .lang-block{display:none!important}
+    .lang-block.active{display:block!important}
+    .lang-inline{display:none!important}
+    .lang-inline.active{display:inline!important}
+
+    /* LOCK SCREEN */
+    #lock-screen{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100vh - 65px);padding:2rem}
+    .lock-card{width:100%;max-width:400px;background:var(--surface);border:1px solid var(--border);border-radius:1.25rem;padding:2.5rem 2.25rem;box-shadow:0 0 0 1px rgba(0,184,148,.1),0 40px 80px rgba(0,0,0,.8);animation:cardIn .5s cubic-bezier(.22,1,.36,1) both}
+    @keyframes cardIn{from{opacity:0;transform:translateY(24px) scale(.97)}to{opacity:1;transform:none}}
+    .lock-icon{width:56px;height:56px;border-radius:1rem;background:var(--accent-dim);border:1px solid rgba(0,184,148,.3);display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 1.5rem}
+    .lock-title{text-align:center;font-size:1.2rem;font-weight:700;margin-bottom:.3rem}
+    .lock-sub{text-align:center;font-size:.82rem;color:var(--muted);margin-bottom:2rem;line-height:1.5}
+    .field label{display:block;font-family:var(--mono);font-size:.7rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem}
+    .field input{width:100%;background:rgba(15,23,42,.9);border:1px solid var(--border);border-radius:.6rem;color:var(--text);font-family:var(--mono);font-size:.95rem;padding:.7rem .9rem;outline:none;letter-spacing:.12em;transition:border-color .2s,box-shadow .2s}
+    .field input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,184,148,.15)}
+    .field input.error-shake{animation:shake .35s}
+    @keyframes shake{10%,90%{transform:translateX(-2px)}20%,80%{transform:translateX(4px)}30%,50%,70%{transform:translateX(-4px)}40%,60%{transform:translateX(4px)}}
+    .btn-unlock{width:100%;margin-top:1rem;padding:.75rem;background:linear-gradient(135deg,var(--accent),#26c6da);color:#022c22;border:none;border-radius:.6rem;font-family:var(--sans);font-size:.9rem;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(0,184,148,.3);transition:transform .15s,box-shadow .15s,opacity .15s}
+    .btn-unlock:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 12px 28px rgba(0,184,148,.4)}
+    .btn-unlock:disabled{opacity:.5;cursor:not-allowed}
+    .error-msg{margin-top:.75rem;padding:.6rem .9rem;border-radius:.5rem;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:var(--red);font-size:.8rem;text-align:center;display:none}
+    .lockout-msg{margin-top:.75rem;padding:.6rem .9rem;border-radius:.5rem;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);color:var(--red);font-size:.8rem;text-align:center;display:none}
+    .back-link{text-align:center;margin-top:1.4rem;font-size:.8rem;color:var(--muted)}
+    .back-link a{color:var(--accent-soft);text-decoration:none}
+
+    /* VAULT */
+    #vault-content{display:none;position:relative;z-index:10;max-width:980px;margin:0 auto;padding:2.5rem 1.5rem 4rem;animation:fadeIn .5s ease both}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+    .vault-header{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:2.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
+    .vault-title{font-size:1.5rem;font-weight:800;letter-spacing:-.02em}
+    .vault-title span{color:var(--accent)}
+    .vault-meta{font-family:var(--mono);font-size:.72rem;color:var(--muted);margin-top:.3rem;line-height:1.8}
+    .header-actions{display:flex;gap:.75rem;align-items:center}
+    .zip-btn{display:flex;align-items:center;gap:.5rem;padding:.65rem 1.2rem;background:var(--accent-dim);border:1px solid rgba(0,184,148,.35);border-radius:.6rem;color:var(--accent-soft);font-family:var(--sans);font-size:.85rem;font-weight:600;text-decoration:none;cursor:pointer;transition:background .2s,border-color .2s;white-space:nowrap}
+    .zip-btn:hover{background:rgba(0,184,148,.2);border-color:var(--accent)}
+    .zip-btn.unavailable{opacity:.25;pointer-events:none}
+    .zip-btn.loading{opacity:.7;pointer-events:none;cursor:wait}
+    .zip-progress{display:none;height:3px;border-radius:999px;background:var(--border);margin-top:.5rem;overflow:hidden}
+    .zip-progress-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),#26c6da);transition:width .2s;border-radius:999px}
+    .lock-out-btn{background:none;border:none;font-size:1rem;cursor:pointer;color:var(--muted);opacity:.45;transition:opacity .15s;padding:.3rem}
+    .lock-out-btn:hover{opacity:.85}
+
+    /* FOLDERS & CARDS */
+    .folder{margin-bottom:2.5rem}
+    .folder-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem}
+    .folder-icon{font-size:1.1rem}
+    .folder-name{font-size:.75rem;font-family:var(--mono);font-weight:500;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
+    .folder-sub{font-family:var(--mono);font-size:.68rem;color:var(--muted);background:var(--surface-2);padding:.15rem .45rem;border-radius:999px;border:1px solid var(--border)}
+    .doc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:.85rem}
+    .doc-card{background:var(--surface);border:1px solid var(--border);border-radius:.85rem;padding:1.1rem 1.2rem;display:flex;flex-direction:column;gap:.6rem;transition:border-color .2s,box-shadow .2s,transform .15s;position:relative;overflow:hidden}
+    .doc-card::before{content:'';position:absolute;inset:0;border-radius:inherit;opacity:0;transition:opacity .2s;background:radial-gradient(circle at top left,rgba(0,184,148,.06),transparent 60%)}
+    .doc-card:hover{border-color:rgba(0,184,148,.25);box-shadow:0 8px 24px rgba(0,0,0,.4);transform:translateY(-2px)}
+    .doc-card:hover::before{opacity:1}
+    .doc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:.5rem}
+    .doc-type-badge{font-family:var(--mono);font-size:.63rem;font-weight:500;padding:.2rem .5rem;border-radius:.3rem;text-transform:uppercase;letter-spacing:.08em;flex-shrink:0}
+    .type-pptx{background:rgba(249,115,22,.15);color:#fb923c;border:1px solid rgba(249,115,22,.25)}
+    .type-pdf{background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.25)}
+    .type-xlsx{background:rgba(34,197,94,.15);color:#4ade80;border:1px solid rgba(34,197,94,.25)}
+    .type-docx{background:rgba(56,189,248,.15);color:#7dd3fc;border:1px solid rgba(56,189,248,.25)}
+    .type-zip{background:rgba(167,139,250,.15);color:#c4b5fd;border:1px solid rgba(167,139,250,.25)}
+    .lang-tag{font-family:var(--mono);font-size:.6rem;padding:.12rem .38rem;border-radius:.25rem;border:1px solid var(--border);color:var(--muted);background:var(--surface-2);flex-shrink:0}
+    .doc-name{font-size:.88rem;font-weight:600;line-height:1.35;color:var(--text)}
+    .doc-desc{font-size:.78rem;color:var(--muted);line-height:1.5;flex:1}
+    .doc-footer{display:flex;align-items:center;justify-content:flex-end;margin-top:.2rem}
+    .dl-btn{display:flex;align-items:center;gap:.35rem;padding:.38rem .8rem;border-radius:.45rem;background:var(--accent-dim);border:1px solid rgba(0,184,148,.3);color:var(--accent-soft);font-family:var(--sans);font-size:.76rem;font-weight:600;text-decoration:none;transition:background .15s,border-color .15s}
+    .dl-btn:hover{background:rgba(0,184,148,.22);border-color:var(--accent)}
+    .dl-btn.unavailable{opacity:.18;pointer-events:none;background:transparent;border-color:rgba(100,116,139,.15);color:var(--muted)}
+
+    hr.divider{border:none;border-top:1px solid var(--border);margin:2rem 0}
+    footer{position:relative;z-index:10;max-width:980px;margin:0 auto;padding:1.25rem 1.5rem 2rem;font-family:var(--mono);font-size:.72rem;color:var(--muted);border-top:1px solid var(--border);display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+    footer a{color:var(--accent-soft);text-decoration:none}
+    @media(max-width:600px){.vault-header{flex-direction:column}.doc-grid{grid-template-columns:1fr}header{padding:1rem}.vault-badge{display:none}}
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo"><div class="logo-dot">T</div>TakaPlast · Kinshasa</a>
+  <div class="header-right">
+    <div class="lang-switch">
+      <button id="btn-fr" class="active" type="button">FR</button>
+      <span style="color:var(--border)">|</span>
+      <button id="btn-en" type="button">EN</button>
+    </div>
+    <div class="vault-badge">
+      <div class="vault-badge-dot"></div>
+      <span class="lang-block active lang-fr">Espace Investisseur</span>
+      <span class="lang-block lang-en">Investor Portal</span>
+    </div>
+  </div>
+</header>
+
+<!-- LOCK -->
+<div id="lock-screen">
+  <div class="lock-card">
+    <div class="lock-icon">🔐</div>
+    <!-- FR -->
+    <div class="lang-block active lang-fr">
+      <h1 class="lock-title">Espace Investisseur</h1>
+      <p class="lock-sub">Accès réservé aux investisseurs accrédités.<br>Mot de passe communiqué sur demande.</p>
+      <div class="field">
+        <label>Mot de passe</label>
+        <input id="pwd-fr" class="pwd-input" type="password" placeholder="••••••••••••••" autocomplete="current-password">
+      </div>
+      <button class="btn-unlock" data-lang="fr" type="button">Accéder aux documents →</button>
+      <div class="error-msg" id="err-fr"></div>
+      <div class="lockout-msg" id="lockout-fr"></div>
+      <p class="back-link">← <a href="index.html">Retour au site</a></p>
+    </div>
+    <!-- EN -->
+    <div class="lang-block lang-en">
+      <h1 class="lock-title">Investor Portal</h1>
+      <p class="lock-sub">Access restricted to accredited investors.<br>Password provided upon request.</p>
+      <div class="field">
+        <label>Password</label>
+        <input id="pwd-en" class="pwd-input" type="password" placeholder="••••••••••••••" autocomplete="current-password">
+      </div>
+      <button class="btn-unlock" data-lang="en" type="button">Access documents →</button>
+      <div class="error-msg" id="err-en"></div>
+      <div class="lockout-msg" id="lockout-en"></div>
+      <p class="back-link">← <a href="index.html">Back to website</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- VAULT -->
+<div id="vault-content">
+  <div class="vault-header">
+    <div>
+      <div class="lang-block active lang-fr">
+        <h1 class="vault-title">Documents <span>TakaPlast</span></h1>
+        <div class="vault-meta">Budget v1.5 · Mars 2026 · Confidentiel — Ne pas diffuser<br><span id="ts-fr"></span></div>
+      </div>
+      <div class="lang-block lang-en">
+        <h1 class="vault-title"><span>TakaPlast</span> Documents</h1>
+        <div class="vault-meta">Budget v1.5 · March 2026 · Confidential — Do not distribute<br><span id="ts-en"></span></div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <div>
+        <button class="zip-btn unavailable" id="zip-btn" type="button">
+          <svg id="zip-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span id="zip-label">
+            <span class="lang-block active lang-fr">Tout télécharger</span>
+            <span class="lang-block lang-en">Download all</span>
+          </span>
+        </button>
+        <div class="zip-progress" id="zip-progress"><div class="zip-progress-bar" id="zip-bar"></div></div>
+      </div>
+      <button class="lock-out-btn" id="lock-btn" type="button" title="Verrouiller / Lock">🔒</button>
+    </div>
+  </div>
+
+  <section class="folder">
+    <div class="folder-header">
+      <span class="folder-icon">📊</span>
+      <span class="folder-name lang-block active lang-fr">① Dossier Investisseur</span>
+      <span class="folder-name lang-block lang-en">① Investor Folder</span>
+      <span class="folder-sub lang-block active lang-fr">Premier contact</span>
+      <span class="folder-sub lang-block lang-en">First contact</span>
+    </div>
+    <div class="doc-grid" id="g-investor"></div>
+  </section>
+  <hr class="divider">
+
+  <section class="folder">
+    <div class="folder-header">
+      <span class="folder-icon">📋</span>
+      <span class="folder-name lang-block active lang-fr">② Dossier Projet — Due Diligence</span>
+      <span class="folder-name lang-block lang-en">② Project — Due Diligence</span>
+    </div>
+    <div class="doc-grid" id="g-project"></div>
+  </section>
+  <hr class="divider">
+
+  <section class="folder">
+    <div class="folder-header">
+      <span class="folder-icon">📈</span>
+      <span class="folder-name lang-block active lang-fr">③ Slides Financières</span>
+      <span class="folder-name lang-block lang-en">③ Financial Slides</span>
+    </div>
+    <div class="doc-grid" id="g-finance"></div>
+  </section>
+  <hr class="divider">
+
+  <section class="folder">
+    <div class="folder-header">
+      <span class="folder-icon">🤝</span>
+      <span class="folder-name lang-block active lang-fr">④ Dossier Commercial — LOI</span>
+      <span class="folder-name lang-block lang-en">④ Commercial — LOI</span>
+    </div>
+    <div class="doc-grid" id="g-commercial"></div>
+  </section>
+</div>
+
+<footer>
+  <div>© <span id="yr"></span> TakaPlast · Kinshasa</div>
+  <div>
+    <a href="mailto:contact@takaplast.com">contact@takaplast.com</a> ·
+    <a href="index.html">
+      <span class="lang-inline active lang-fr">← Retour</span>
+      <span class="lang-inline lang-en">← Back</span>
+    </a>
+  </div>
+</footer>
+
+<script>
+(function() {
+'use strict';
+
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+/* ══════════════════════════════════════════════
+   AUTH CONFIG — hash en 3 parties encodées
+   Pour changer le MDP : console → await genHash("NewPwd")
+   puis remplacer _a _b _c
+══════════════════════════════════════════════ */
+const _a = 'ZDE2ZDliNDc5ZWM2NmZkZQ==';
+const _b = 'OWFkZTgwNmEwYWExZDZkZg==';
+const _c = 'YjMxNTViM2E5NzFlY2YyOTlkZDEzMWE3NTk5ODRlNDQ=';
+
+function _h() {
+  return [_a,_b,_c].map(x=>atob(x)).join('');
+}
+
+const SESSION_MIN  = 60;
+const MAX_ATTEMPTS = 5;
+const LOCKOUT_MIN  = 15;
+
+/* ══════════════════════════════════════════════
+   DOCUMENTS — {folder, name, name_en, type, desc_fr, desc_en, langs}
+   langs: ['fr'] = French only | ['en'] = English only | ['fr','en'] = both
+   Files: docs/FR_{name}.{ext} and/or docs/EN_{name}.{ext}
+   
+   ⚠️ MANQUANT : Subventions (à ajouter une fois le fichier créé)
+══════════════════════════════════════════════ */
+const DOCS = [
+  { folder:'investor',
+    name:'EIES', type:'zip', langs:['fr'],
+    name_fr:'EIES — Pré-dossier', name_en:'EIES — Pre-filing',
+    desc_fr:"Pré-dossier d'Étude d'Impact Environnemental et Social. Requis par AFD, BAD, GCF.",
+    desc_en:'Environmental & Social Impact Assessment pre-filing. Required by AFD, AfDB, GCF.' },
+
+  { folder:'investor',
+    name:'TakaPlast_Pitch_Deck', type:'pdf', langs:['fr'],
+    name_fr:'Pitch Deck', name_en:'Pitch Deck',
+    desc_fr:'Présentation investisseur. Marché, solution tri-flux, financials, roadmap.',
+    desc_en:'Investor presentation. Market, tri-stream solution, financials, roadmap.' },
+
+  { folder:'investor',
+    name:'TakaPlast_Investment_Memo', type:'docx', langs:['fr'],
+    name_fr:'Investment Memo', name_en:'Investment Memo',
+    desc_fr:'Thèse stratégique synthétique. Marché, avantage compétitif, financement.',
+    desc_en:'Concise strategic thesis. Market, competitive edge, funding structure.' },
+
+  { folder:'project',
+    name:'TakaPlast_Document_Projet', type:'docx', langs:['fr'],
+    name_fr:'Document Projet', name_en:'Project Document',
+    desc_fr:'Business plan complet. Structure validée, tri-flux opérationnel M8.',
+    desc_en:'Full business plan. Validated structure, tri-stream operational at M8.' },
+
+  { folder:'project',
+    name:'TakaPlast_Budget', type:'xlsx', langs:['fr'],
+    name_fr:'Budget Financier', name_en:'Financial Model',
+    desc_fr:'Modèle financier dynamique. CAPEX · OPEX · Revenus · Working Capital · Subventions.',
+    desc_en:'Dynamic financial model. CAPEX · OPEX · Revenue · Working Capital · Subsidies.' },
+
+  { folder:'finance',
+    name:'TakaPlast_OPEX_AN3', type:'pptx', langs:['fr'],
+    name_fr:'OPEX Année 3', name_en:'Year 3 OPEX',
+    desc_fr:'Détail OPEX Year 3. 8 postes avec décomposition : RH, matières, énergie, transport.',
+    desc_en:'Year 3 OPEX breakdown. 8 cost lines: HR, materials, energy, transport.' },
+
+  { folder:'finance',
+    name:'TakaPlast_Projections_5ans', type:'pptx', langs:['fr'],
+    name_fr:'Projections 5 Ans', name_en:'5-Year Projections',
+    desc_fr:'CA · OPEX · EBITDA · Résultat Net sur 5 ans. Graphique 4 séries et tableau.',
+    desc_en:'Revenue · OPEX · EBITDA · Net income over 5 years. Chart and summary table.' },
+
+  { folder:'finance',
+    name:'TakaPlast_Use_of_Funds', type:'pptx', langs:['fr'],
+    name_fr:'Utilisation des Fonds', name_en:'Use of Funds',
+    desc_fr:'Allocation CAPEX+WC par poste. 8 catégories détaillées avec décomposition.',
+    desc_en:'CAPEX+WC allocation by category. 8 detailed line items with full breakdown.' },
+
+  /* ── AJOUTER Subventions quand le fichier sera créé :
+  { folder:'finance',
+    name:'TakaPlast_Subventions', type:'pptx', langs:['fr'],
+    name_fr:'Subventions Potentielles', name_en:'Potential Grants',
+    desc_fr:'14 sources identifiées : AfDB, PNUD, AFD, EU, GCF, Gates, WB, BPI, ADEME…',
+    desc_en:'14 identified sources: AfDB, UNDP, AFD, EU, GCF, Gates, WB, BPI, ADEME…' },
+  ── */
+
+  { folder:'commercial',
+    name:'TakaPlast_LOI_Clients_BTP', type:'docx', langs:['fr'],
+    name_fr:'LOI Clients BTP', name_en:'LOI — BTP Clients',
+    desc_fr:'Lettre d\'intention — mairies, OVR, promoteurs. Pavés plastique-ciment.',
+    desc_en:'Letter of intent — municipalities, road authorities. Plastic-cement pavers.' },
+
+  { folder:'commercial',
+    name:'TakaPlast_LOI_Clients_Energy', type:'docx', langs:['fr'],
+    name_fr:'LOI Clients Énergie', name_en:'LOI — Energy Clients',
+    desc_fr:'Lettre d\'intention — PME, industriels, brasseries. LPG/Syngas.',
+    desc_en:'Letter of intent — SMEs, industrials, breweries. LPG/Syngas.' },
+
+  { folder:'commercial',
+    name:'TakaPlast_LOI_Collection', type:'docx', langs:['fr'],
+    name_fr:'LOI Collecte', name_en:'LOI — Collection',
+    desc_fr:'Lettre d\'intention — coopératives de collecte et collecteurs indépendants.',
+    desc_en:'Letter of intent — collection cooperatives and independent collectors.' },
+];
+
+/* ── Lang state ── */
+let lang = 'fr';
+
+function setLang(l) {
+  lang = l;
+  const isFr = l === 'fr';
+  document.querySelectorAll('.lang-fr').forEach(el => el.classList.toggle('active', isFr));
+  document.querySelectorAll('.lang-en').forEach(el => el.classList.toggle('active', !isFr));
+  document.getElementById('btn-fr').classList.toggle('active', isFr);
+  document.getElementById('btn-en').classList.toggle('active', !isFr);
+  document.documentElement.lang = l;
+  // Update card text
+  document.querySelectorAll('[data-fr]').forEach(el => { el.textContent = el.dataset[l] || el.dataset.fr; });
+}
+
+document.getElementById('btn-fr').addEventListener('click', () => setLang('fr'));
+document.getElementById('btn-en').addEventListener('click', () => setLang('en'));
+
+/* ── SHA-256 ── */
+async function sha256(str) {
+  const buf = new TextEncoder().encode(str);
+  const h = await crypto.subtle.digest('SHA-256', buf);
+  return Array.from(new Uint8Array(h)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+/* Console helper for changing password — generates split parts */
+window.genHash = async function(pwd) {
+  const h = await sha256(pwd);
+  const p1 = btoa(h.slice(0,16));
+  const p2 = btoa(h.slice(16,32));
+  const p3 = btoa(h.slice(32));
+  console.log('Copy these 3 values into vault.html (_a, _b, _c):');
+  console.log(`_a: '${p1}'`);
+  console.log(`_b: '${p2}'`);
+  console.log(`_c: '${p3}'`);
+};
+
+/* ── Brute-force protection ── */
+const AF = 'tp_af'; // attempts
+const LT = 'tp_lt'; // lockout time
+
+function getAttempts() { return parseInt(localStorage.getItem(AF) || '0'); }
+function setAttempts(n) { localStorage.setItem(AF, n); }
+function getLockoutTs() { return parseInt(localStorage.getItem(LT) || '0'); }
+function setLockoutTs(t) { localStorage.setItem(LT, t); }
+
+function isLockedOut() {
+  const ts = getLockoutTs();
+  if (!ts) return false;
+  const remaining = LOCKOUT_MIN * 60000 - (Date.now() - ts);
+  return remaining > 0;
+}
+
+function lockoutMinutesLeft() {
+  const ts = getLockoutTs();
+  return Math.ceil((LOCKOUT_MIN * 60000 - (Date.now() - ts)) / 60000);
+}
+
+function showLockout(l) {
+  const min = lockoutMinutesLeft();
+  const msg = l === 'fr'
+    ? `Trop de tentatives. Réessayez dans ${min} minute${min>1?'s':''}.`
+    : `Too many attempts. Try again in ${min} minute${min>1?'s':''}.`;
+  const el = document.getElementById(l==='fr'?'lockout-fr':'lockout-en');
+  el.textContent = msg;
+  el.style.display = 'block';
+  document.querySelector(`.btn-unlock[data-lang="${l}"]`).disabled = true;
+  document.getElementById(l==='fr'?'pwd-fr':'pwd-en').disabled = true;
+}
+
+/* ── Session ── */
+const SK = 'tp_sk'; // session key (random token)
+const ST = 'tp_st'; // session time
+
+function sessionOk() {
+  const key = sessionStorage.getItem(SK);
+  const ts  = sessionStorage.getItem(ST);
+  return key && ts && (Date.now() - parseInt(ts)) < SESSION_MIN * 60000;
+}
+
+function openVault() {
+  // Generate a random session token — used to authorize downloads
+  const token = Array.from(crypto.getRandomValues(new Uint8Array(16)))
+    .map(b => b.toString(16).padStart(2,'0')).join('');
+  sessionStorage.setItem(SK, token);
+  sessionStorage.setItem(ST, Date.now());
+  setAttempts(0);
+
+  document.getElementById('lock-screen').style.display = 'none';
+  document.getElementById('vault-content').style.display = 'block';
+  const d = new Date();
+  document.getElementById('ts-fr').textContent = 'Accès accordé le ' + d.toLocaleString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  document.getElementById('ts-en').textContent = 'Access granted on ' + d.toLocaleString('en-GB',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  buildDocs();
+}
+
+if (sessionOk()) openVault();
+else if (isLockedOut()) { showLockout('fr'); showLockout('en'); }
+
+/* ── Unlock ── */
+async function tryUnlock(l) {
+  if (isLockedOut()) { showLockout(l); return; }
+
+  const inp     = document.getElementById(l==='fr'?'pwd-fr':'pwd-en');
+  const errEl   = document.getElementById(l==='fr'?'err-fr':'err-en');
+  const lockEl  = document.getElementById(l==='fr'?'lockout-fr':'lockout-en');
+  const btn     = document.querySelector(`.btn-unlock[data-lang="${l}"]`);
+  const val     = inp.value;
+  if (!val) return;
+
+  btn.disabled = true; btn.textContent = '…';
+  errEl.style.display = 'none';
+
+  const h = await sha256(val);
+
+  if (h === _h()) {
+    openVault();
+    return;
+  }
+
+  // Wrong password
+  const attempts = getAttempts() + 1;
+  setAttempts(attempts);
+  const remaining = MAX_ATTEMPTS - attempts;
+
+  if (attempts >= MAX_ATTEMPTS) {
+    setLockoutTs(Date.now());
+    showLockout(l);
+    inp.value = '';
+    btn.disabled = true;
+    return;
+  }
+
+  const msg = l === 'fr'
+    ? `Mot de passe incorrect. ${remaining} tentative${remaining>1?'s':''} restante${remaining>1?'s':''}.`
+    : `Incorrect password. ${remaining} attempt${remaining>1?'s':''} remaining.`;
+  errEl.textContent = msg;
+  errEl.style.display = 'block';
+  inp.value = '';
+  // Shake animation
+  inp.classList.remove('error-shake');
+  void inp.offsetWidth;
+  inp.classList.add('error-shake');
+  inp.focus();
+
+  btn.disabled = false;
+  btn.textContent = l==='fr' ? 'Accéder aux documents →' : 'Access documents →';
+}
+
+document.querySelectorAll('.btn-unlock').forEach(b => b.addEventListener('click', () => tryUnlock(b.dataset.lang)));
+document.querySelectorAll('.pwd-input').forEach(i => i.addEventListener('keydown', e => {
+  if (e.key === 'Enter') tryUnlock(i.id.includes('-en') ? 'en' : 'fr');
+}));
+
+/* ── Lock out ── */
+document.getElementById('lock-btn').addEventListener('click', () => {
+  sessionStorage.removeItem(SK);
+  sessionStorage.removeItem(ST);
+  document.getElementById('vault-content').style.display = 'none';
+  document.getElementById('lock-screen').style.display   = 'flex';
+  document.querySelectorAll('.pwd-input').forEach(i => { i.value = ''; i.disabled = false; });
+  document.querySelectorAll('.btn-unlock').forEach(b => { b.disabled = false; b.textContent = b.dataset.lang==='fr' ? 'Accéder aux documents →' : 'Access documents →'; });
+  document.querySelectorAll('.error-msg, .lockout-msg').forEach(e => e.style.display = 'none');
+});
+
+/* ══════════════════════════════════════════════
+   BUILD DOCUMENTS
+   File path is derived at runtime from session token
+   + lang: docs/{LANG}_{name}.{ext}
+   Path is never stored in DOM — computed in JS only
+══════════════════════════════════════════════ */
+const G = { investor:'g-investor', project:'g-project', finance:'g-finance', commercial:'g-commercial' };
+const DL_ICON = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>`;
+
+const availableFiles = [];
+
+function filePath(doc, l) {
+  // Path computed at runtime — not in DOM attributes
+  return `docs/${l.toUpperCase()}_${doc.name}.${doc.type}`;
+}
+
+async function fileExists(url) {
+  try { const r = await fetch(url, { method:'HEAD' }); return r.ok; }
+  catch { return false; }
+}
+
+async function buildDocs() {
+  availableFiles.length = 0;
+  const groups = {};
+  DOCS.forEach(d => { if (!groups[d.folder]) groups[d.folder]=[]; groups[d.folder].push(d); });
+
+  for (const [folder, docs] of Object.entries(groups)) {
+    const container = document.getElementById(G[folder]);
+    if (!container) continue;
+
+    for (const doc of docs) {
+      // Check availability per language
+      const hasFR = doc.langs.includes('fr') && await fileExists(filePath(doc,'fr'));
+      const hasEN = doc.langs.includes('en') && await fileExists(filePath(doc,'en'));
+
+      if (hasFR) availableFiles.push({ doc, lang:'fr' });
+      if (hasEN) availableFiles.push({ doc, lang:'en' });
+
+      const card = createCard(doc, hasFR, hasEN);
+      container.appendChild(card);
+    }
+  }
+
+  if (availableFiles.length > 0) document.getElementById('zip-btn').classList.remove('unavailable');
+}
+
+function createCard(doc, hasFR, hasEN) {
+  const card = document.createElement('div');
+  card.className = 'doc-card';
+
+  // Determine availability for current lang at render time
+  // dl-btn gets a data-doc index; click handler resolves path at runtime
+  const docIdx = DOCS.indexOf(doc);
+
+  card.innerHTML = `
+    <div class="doc-top">
+      <span class="doc-type-badge type-${doc.type}">${doc.type.toUpperCase()}</span>
+      <span class="lang-tag">${doc.langs.map(l=>l.toUpperCase()).join(' · ')}</span>
+    </div>
+    <div class="doc-name" data-fr="${esc(doc.name_fr)}" data-en="${esc(doc.name_en)}">${esc(lang==='fr'?doc.name_fr:doc.name_en)}</div>
+    <div class="doc-desc" data-fr="${esc(doc.desc_fr)}" data-en="${esc(doc.desc_en)}">${esc(lang==='fr'?doc.desc_fr:doc.desc_en)}</div>
+    <div class="doc-footer">
+      <button class="dl-btn ${(lang==='fr'&&hasFR)||(lang==='en'&&hasEN)?'':'unavailable'}"
+              data-doc="${docIdx}" data-has-fr="${hasFR}" data-has-en="${hasEN}">
+        ${DL_ICON}
+        <span data-fr="Télécharger" data-en="Download">${lang==='fr'?'Télécharger':'Download'}</span>
+      </button>
+    </div>`;
+
+  // Download handler — resolves path at runtime, checks session
+  card.querySelector('.dl-btn').addEventListener('click', function() {
+    if (!sessionOk()) { location.reload(); return; }
+    const d = DOCS[parseInt(this.dataset.doc)];
+    const hasFR = this.dataset.hasFr === 'true';
+    const hasEN = this.dataset.hasEn === 'true';
+    const l = (lang==='fr' && hasFR) ? 'fr' : (lang==='en' && hasEN) ? 'en' : hasFR ? 'fr' : 'en';
+    const path = filePath(d, l);
+    const a = document.createElement('a');
+    a.href = path; a.download = `${l.toUpperCase()}_${d.name}.${d.type}`;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  });
+
+  // Update button state when lang changes
+  card.querySelector('.dl-btn').setAttribute('data-lang-reactive', '1');
+
+  return card;
+}
+
+// Update button availability on lang change
+function updateCardButtons() {
+  document.querySelectorAll('.dl-btn[data-has-fr]').forEach(btn => {
+    const hasFR = btn.dataset.hasFr === 'true';
+    const hasEN = btn.dataset.hasEn === 'true';
+    const available = (lang==='fr' && hasFR) || (lang==='en' && hasEN);
+    btn.classList.toggle('unavailable', !available);
+  });
+}
+
+// Hook lang change to update buttons
+const origSetLang = setLang;
+window._setLang = setLang;
+
+document.getElementById('btn-fr').addEventListener('click', updateCardButtons);
+document.getElementById('btn-en').addEventListener('click', updateCardButtons);
+
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+/* ── Dynamic ZIP via JSZip ── */
+document.getElementById('zip-btn').addEventListener('click', async () => {
+  if (!sessionOk()) { location.reload(); return; }
+  if (availableFiles.length === 0) return;
+
+  const btn   = document.getElementById('zip-btn');
+  const bar   = document.getElementById('zip-bar');
+  const prog  = document.getElementById('zip-progress');
+  const icon  = document.getElementById('zip-icon');
+  const label = document.getElementById('zip-label');
+
+  btn.classList.add('loading');
+  prog.style.display = 'block';
+  icon.style.display = 'none';
+
+  // Filter available for current lang
+  const toDownload = availableFiles.filter(f => {
+    const hasFR = f.lang === 'fr';
+    const hasEN = f.lang === 'en';
+    return (lang==='fr' && hasFR) || (lang==='en' && hasEN) || hasFR || hasEN;
+  });
+  // Deduplicate by doc name (prefer current lang)
+  const seen = new Set();
+  const files = [];
+  toDownload.forEach(f => { if (!seen.has(f.doc.name)) { seen.add(f.doc.name); files.push(f); }});
+
+  try {
+    if (!window.JSZip) {
+      await new Promise((res,rej) => {
+        const s = document.createElement('script');
+        s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+        s.onload = res; s.onerror = rej;
+        document.head.appendChild(s);
+      });
+    }
+
+    const zip = new JSZip();
+    for (let i=0; i<files.length; i++) {
+      bar.style.width = Math.round(((i+.5)/files.length)*85)+'%';
+      label.innerHTML = lang==='fr' ? `Ajout ${i+1}/${files.length}…` : `Adding ${i+1}/${files.length}…`;
+      const f = files[i];
+      const resp = await fetch(filePath(f.doc, f.lang));
+      zip.file(`${f.lang.toUpperCase()}_${f.doc.name}.${f.doc.type}`, await resp.blob());
+    }
+
+    bar.style.width = '95%';
+    label.innerHTML = lang==='fr' ? 'Génération…' : 'Generating…';
+
+    const blob = await zip.generateAsync({ type:'blob', compression:'DEFLATE', compressionOptions:{level:6} },
+      m => { bar.style.width = (95+m.percent*.05)+'%'; });
+    bar.style.width = '100%';
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'TakaPlast_Documents.zip';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+
+  } catch(e) {
+    console.error(e);
+    alert(lang==='fr' ? 'Erreur lors de la génération.' : 'Error generating zip.');
+  } finally {
+    setTimeout(() => {
+      btn.classList.remove('loading');
+      prog.style.display = 'none'; bar.style.width = '0%';
+      icon.style.display = '';
+      label.innerHTML = `<span class="lang-block active lang-fr">Tout télécharger</span><span class="lang-block lang-en">Download all</span>`;
+      setLang(lang); // reapply lang to restore correct label visibility
+    }, 800);
+  }
+});
+
+/* ── Auto lang detect ── */
+const ul = (navigator.language||'fr').toLowerCase();
+if (!ul.startsWith('fr')) setLang('en');
+
+})();
+</script>
+</body>
+</html>
