@@ -577,15 +577,17 @@ function createCard(doc, hasFR, hasEN) {
       </button>
     </div>`;
 
-  // Synchronous click handler — window.location.href is the only reliable method
+  // Click handler — persistent DOM anchor (most reliable cross-browser method)
   card.querySelector('.dl-btn').addEventListener('click', function() {
-    if (!sessionOk()) { location.reload(); return; }
     const d = DOCS[parseInt(this.dataset.doc)];
     const hasFR = this.dataset.hasFr === 'true';
     const hasEN = this.dataset.hasEn === 'true';
     const l = (lang === 'fr' && hasFR) ? 'fr' : (lang === 'en' && hasEN) ? 'en' : null;
     if (!l) return;
-    window.location.href = filePath(d, l);
+    const a = document.getElementById('_dl');
+    a.href = filePath(d, l);
+    a.download = l.toUpperCase() + '_' + d.name + '.' + d.type;
+    a.click();
   });
 
   // Update button state when lang changes
@@ -683,5 +685,6 @@ if (!ul.startsWith('fr')) setLang('en');
 
 })();
 </script>
+<a id="_dl" style="display:none" aria-hidden="true"></a>
 </body>
 </html>
