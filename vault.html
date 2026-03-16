@@ -49,6 +49,9 @@
     .zip-btn{display:flex;align-items:center;gap:.5rem;padding:.65rem 1.2rem;background:var(--accent-dim);border:1px solid rgba(0,184,148,.35);border-radius:.6rem;color:var(--accent-soft);font-family:var(--sans);font-size:.85rem;font-weight:600;text-decoration:none;transition:background .2s,border-color .2s;white-space:nowrap}
     .zip-btn:hover{background:rgba(0,184,148,.2);border-color:var(--accent)}
     .zip-btn.unavailable{opacity:.25;pointer-events:none}
+    .zip-btn.loading{opacity:.7;pointer-events:none;cursor:wait}
+    .zip-progress{display:none;height:3px;border-radius:999px;background:var(--border);margin-top:.5rem;overflow:hidden}
+    .zip-progress-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),#26c6da);transition:width .2s;border-radius:999px}
     .lock-out-btn{background:none;border:none;font-size:1rem;cursor:pointer;color:var(--muted);opacity:.5;transition:opacity .15s;padding:.3rem}
     .lock-out-btn:hover{opacity:.9}
     .folder{margin-bottom:2.5rem}
@@ -67,6 +70,7 @@
     .type-pdf{background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.25)}
     .type-xlsx{background:rgba(34,197,94,.15);color:#4ade80;border:1px solid rgba(34,197,94,.25)}
     .type-docx{background:rgba(56,189,248,.15);color:#7dd3fc;border:1px solid rgba(56,189,248,.25)}
+    .type-zip{background:rgba(167,139,250,.15);color:#c4b5fd;border:1px solid rgba(167,139,250,.25)}
     .doc-name{font-size:.88rem;font-weight:600;line-height:1.35;color:var(--text)}
     .doc-desc{font-size:.78rem;color:var(--muted);line-height:1.5;flex:1}
     .doc-footer{display:flex;align-items:center;justify-content:flex-end;margin-top:.2rem}
@@ -80,7 +84,7 @@
   </style>
 </head>
 <body>
- 
+
 <header>
   <a href="index.html" class="logo"><div class="logo-dot">T</div>TakaPlast · Kinshasa</a>
   <div class="header-right">
@@ -96,7 +100,7 @@
     </div>
   </div>
 </header>
- 
+
 <!-- LOCK SCREEN -->
 <div id="lock-screen">
   <div class="lock-card">
@@ -127,7 +131,7 @@
     </div>
   </div>
 </div>
- 
+
 <!-- VAULT CONTENT -->
 <div id="vault-content">
   <div class="vault-header">
@@ -142,15 +146,20 @@
       </div>
     </div>
     <div class="header-actions">
-      <a href="docs/TakaPlast_Dossier_Complet.zip" download class="zip-btn" id="zip-fr">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        <span class="lang-block lang-fr active">Tout télécharger (.zip)</span>
-        <span class="lang-block lang-en">Download all (.zip)</span>
-      </a>
+      <div>
+        <button class="zip-btn unavailable" id="zip-btn" type="button">
+          <svg id="zip-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span id="zip-label">
+            <span class="lang-block lang-fr active">Tout télécharger (.zip)</span>
+            <span class="lang-block lang-en">Download all (.zip)</span>
+          </span>
+        </button>
+        <div class="zip-progress" id="zip-progress"><div class="zip-progress-bar" id="zip-bar"></div></div>
+      </div>
       <button class="lock-out-btn" id="lock-btn" type="button" title="Verrouiller / Lock session">🔒</button>
     </div>
   </div>
- 
+
   <section class="folder">
     <div class="folder-header">
       <span class="folder-icon">📊</span>
@@ -162,7 +171,7 @@
     <div class="doc-grid" id="g-investor"></div>
   </section>
   <hr class="divider">
- 
+
   <section class="folder">
     <div class="folder-header">
       <span class="folder-icon">📋</span>
@@ -172,7 +181,7 @@
     <div class="doc-grid" id="g-project"></div>
   </section>
   <hr class="divider">
- 
+
   <section class="folder">
     <div class="folder-header">
       <span class="folder-icon">📈</span>
@@ -182,7 +191,7 @@
     <div class="doc-grid" id="g-finance"></div>
   </section>
   <hr class="divider">
- 
+
   <section class="folder">
     <div class="folder-header">
       <span class="folder-icon">🤝</span>
@@ -192,7 +201,7 @@
     <div class="doc-grid" id="g-commercial"></div>
   </section>
 </div>
- 
+
 <footer>
   <div>© <span id="yr"></span> TakaPlast · Kinshasa</div>
   <div>
@@ -200,14 +209,14 @@
     <a href="index.html"><span class="lang-block lang-fr active">← Retour</span><span class="lang-block lang-en">← Back</span></a>
   </div>
 </footer>
- 
+
 <script>
 document.getElementById('yr').textContent = new Date().getFullYear();
- 
+
 /* ── CONFIG ── */
 const VAULT_HASH = 'd16d9b479ec66fde9ade806a0aa1d6dfb3155b3a971ecf299dd131a759984e44';
 const SESSION_MIN = 60;
- 
+
 /* ── DOCUMENTS ──────────────────────────────────────
    Pour ajouter un fichier : copier un bloc, renseigner
    file, name_fr, name_en, type, desc_fr, desc_en, folder
@@ -217,68 +226,68 @@ const DOCS = [
     name_fr:'Pitch Deck', name_en:'Pitch Deck', type:'pptx',
     desc_fr:'Présentation investisseur. Marché, solution tri-flux, financials, roadmap.',
     desc_en:'Investor presentation. Market, tri-stream solution, financials, roadmap.' },
- 
+
   { folder:'investor', file:'docs/TakaPlast_Investment_Memo.pdf',
     name_fr:'Investment Memo', name_en:'Investment Memo', type:'pdf',
     desc_fr:'Thèse stratégique synthétique. Marché, avantage compétitif, financement.',
     desc_en:'Concise strategic thesis. Market, competitive edge, funding structure.' },
- 
-  { folder:'investor', file:'docs/TakaPlast_Funding_Map.xlsx',
-    name_fr:'Funding Map', name_en:'Funding Map', type:'xlsx',
-    desc_fr:'Contacts investisseurs, pipeline de levée et statuts de contact.',
-    desc_en:'Investor contacts, fundraising pipeline and contact status tracker.' },
- 
+
+  { folder:'investor', file:'docs/TakaPlast_EIES_PreDoc.zip',
+    name_fr:'EIES — Pré-dossier', name_en:'EIES — Pre-filing', type:'zip',
+    desc_fr:"Pré-dossier d'Étude d'Impact Environnemental et Social. Requis par AFD, BAD, GCF.",
+    desc_en:'Environmental & Social Impact Assessment pre-filing. Required by AFD, AfDB, GCF.' },
+
   { folder:'project', file:'docs/TakaPlast_Document_Projet.docx',
     name_fr:'Document Projet', name_en:'Project Document', type:'docx',
     desc_fr:'Business plan complet. Structure validée, tri-flux opérationnel M8.',
     desc_en:'Full business plan. Validated structure, tri-stream operational at M8.' },
- 
+
   { folder:'project', file:'docs/TakaPlast_Budget_v1.5.xlsx',
     name_fr:'Budget Financier', name_en:'Financial Model', type:'xlsx',
     desc_fr:'Modèle financier dynamique. CAPEX · OPEX · Revenus · Working Capital · Subventions.',
     desc_en:'Dynamic financial model. CAPEX · OPEX · Revenue · Working Capital · Subsidies.' },
- 
+
   { folder:'finance', file:'docs/TakaPlast_OPEX_AN3.pptx',
     name_fr:'OPEX Année 3', name_en:'Year 3 OPEX', type:'pptx',
     desc_fr:'Détail OPEX Year 3. 8 postes avec décomposition : RH, matières, énergie, transport.',
     desc_en:'Year 3 OPEX breakdown. 8 cost lines: HR, materials, energy, transport.' },
- 
+
   { folder:'finance', file:'docs/TakaPlast_Projections_5ans.pptx',
     name_fr:'Projections 5 Ans', name_en:'5-Year Projections', type:'pptx',
     desc_fr:'CA · OPEX · EBITDA · Résultat Net sur 5 ans. Graphique 4 séries et tableau.',
     desc_en:'Revenue · OPEX · EBITDA · Net income over 5 years. Chart and summary table.' },
- 
+
   { folder:'finance', file:'docs/TakaPlast_Use_of_Funds.pptx',
     name_fr:'Utilisation des Fonds', name_en:'Use of Funds', type:'pptx',
     desc_fr:'Allocation CAPEX+WC par poste. 8 catégories détaillées avec décomposition.',
     desc_en:'CAPEX+WC allocation by category. 8 detailed line items with full breakdown.' },
- 
+
   { folder:'finance', file:'docs/TakaPlast_Subventions.pptx',
     name_fr:'Subventions Potentielles', name_en:'Potential Grants', type:'pptx',
     desc_fr:'14 sources identifiées — AfDB, PNUD, AFD, EU, GCF, Gates, WB, BPI, ADEME…',
     desc_en:'14 identified sources — AfDB, UNDP, AFD, EU, GCF, Gates, WB, BPI, ADEME…' },
- 
+
   { folder:'commercial', file:'docs/TakaPlast_LOI_Clients_BTP.docx',
     name_fr:'LOI Clients BTP', name_en:'LOI — BTP Clients', type:'docx',
     desc_fr:'Lettre d\'intention — mairies, OVR, promoteurs. Pavés plastique-ciment.',
     desc_en:'Letter of intent — municipalities, road authorities. Plastic-cement pavers.' },
- 
+
   { folder:'commercial', file:'docs/TakaPlast_LOI_Clients_Energie.docx',
     name_fr:'LOI Clients Énergie', name_en:'LOI — Energy Clients', type:'docx',
     desc_fr:'Lettre d\'intention — PME, industriels, brasseries. LPG/Syngas.',
     desc_en:'Letter of intent — SMEs, industrials, breweries. LPG/Syngas.' },
- 
+
   { folder:'commercial', file:'docs/TakaPlast_LOI_Collecte.docx',
     name_fr:'LOI Collecte', name_en:'LOI — Collection', type:'docx',
     desc_fr:'Lettre d\'intention — coopératives de collecte et collecteurs indépendants.',
     desc_en:'Letter of intent — collection cooperatives and independent collectors.' },
 ];
- 
+
 /* ── Lang ── */
 let lang = 'fr';
 const frEls = () => document.querySelectorAll('.lang-fr');
 const enEls = () => document.querySelectorAll('.lang-en');
- 
+
 function setLang(l) {
   lang = l;
   const isFr = l === 'fr';
@@ -290,10 +299,10 @@ function setLang(l) {
   // Update dynamic card text
   document.querySelectorAll('[data-fr]').forEach(el => { el.textContent = el.dataset[l]; });
 }
- 
+
 document.getElementById('btn-fr').addEventListener('click', () => setLang('fr'));
 document.getElementById('btn-en').addEventListener('click', () => setLang('en'));
- 
+
 /* ── SHA-256 ── */
 async function sha256(str) {
   const buf = new TextEncoder().encode(str);
@@ -301,7 +310,7 @@ async function sha256(str) {
   return Array.from(new Uint8Array(h)).map(b => b.toString(16).padStart(2,'0')).join('');
 }
 window.sha256 = sha256; // console helper
- 
+
 /* ── Session ── */
 function sessionOk() {
   const t = sessionStorage.getItem('tp_ts');
@@ -316,9 +325,9 @@ function openVault() {
   document.getElementById('ts-en').textContent = 'Access granted on ' + d.toLocaleString('en-GB',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
   buildDocs();
 }
- 
+
 if (sessionOk()) openVault();
- 
+
 /* ── Unlock ── */
 async function tryUnlock(l) {
   const inp = document.getElementById(l === 'fr' ? 'pwd-fr' : 'pwd-en');
@@ -336,10 +345,10 @@ async function tryUnlock(l) {
   btn.disabled = false;
   btn.textContent = l === 'fr' ? 'Accéder aux documents →' : 'Access documents →';
 }
- 
+
 document.querySelectorAll('.btn-unlock').forEach(b => b.addEventListener('click', () => tryUnlock(b.dataset.lang)));
 document.querySelectorAll('.pwd-input').forEach(i => i.addEventListener('keydown', e => { if (e.key==='Enter') tryUnlock(i.id.includes('-en')?'en':'fr'); }));
- 
+
 /* ── Lock ── */
 document.getElementById('lock-btn').addEventListener('click', () => {
   sessionStorage.removeItem('tp_ts');
@@ -347,27 +356,31 @@ document.getElementById('lock-btn').addEventListener('click', () => {
   document.getElementById('lock-screen').style.display = 'flex';
   document.querySelectorAll('.pwd-input').forEach(i => i.value = '');
 });
- 
+
 /* ── Build document cards with availability check ── */
 const DL_ICON = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>`;
- 
+
 async function fileExists(url) {
   try { const r = await fetch(url, {method:'HEAD'}); return r.ok; }
   catch { return false; }
 }
- 
+
 const G = { investor:'g-investor', project:'g-project', finance:'g-finance', commercial:'g-commercial' };
- 
+
+const availableFiles = [];
+
 async function buildDocs() {
+  availableFiles.length = 0;
   // Group
   const groups = {};
   DOCS.forEach(d => { if (!groups[d.folder]) groups[d.folder]=[]; groups[d.folder].push(d); });
- 
+
   for (const [folder, docs] of Object.entries(groups)) {
     const el = document.getElementById(G[folder]);
     if (!el) continue;
     for (const doc of docs) {
       const ok = await fileExists(doc.file);
+      if (ok) availableFiles.push(doc);
       const card = document.createElement('div');
       card.className = 'doc-card';
       const dlClass = ok ? 'dl-btn' : 'dl-btn unavailable';
@@ -387,14 +400,90 @@ async function buildDocs() {
       el.appendChild(card);
     }
   }
- 
-  // Zip button
-  const zipOk = await fileExists('docs/TakaPlast_Dossier_Complet.zip');
-  if (!zipOk) document.getElementById('zip-fr').classList.add('unavailable');
+
+  // Enable zip button if at least 1 file available
+  if (availableFiles.length > 0) {
+    document.getElementById('zip-btn').classList.remove('unavailable');
+  }
 }
- 
+
 function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
- 
+
+/* ── Dynamic ZIP generation using JSZip ── */
+document.getElementById('zip-btn').addEventListener('click', async () => {
+  if (availableFiles.length === 0) return;
+  const btn = document.getElementById('zip-btn');
+  const bar = document.getElementById('zip-bar');
+  const prog = document.getElementById('zip-progress');
+  const icon = document.getElementById('zip-icon');
+  const label = document.getElementById('zip-label');
+
+  btn.classList.add('loading');
+  prog.style.display = 'block';
+  label.innerHTML = lang === 'fr' ? 'Préparation…' : 'Preparing…';
+  icon.style.display = 'none';
+
+  try {
+    // Load JSZip dynamically
+    if (!window.JSZip) {
+      await new Promise((res, rej) => {
+        const s = document.createElement('script');
+        s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+        s.onload = res; s.onerror = rej;
+        document.head.appendChild(s);
+      });
+    }
+
+    const zip = new JSZip();
+    const total = availableFiles.length;
+
+    for (let i = 0; i < total; i++) {
+      const doc = availableFiles[i];
+      const pct = Math.round(((i + 0.5) / total) * 85);
+      bar.style.width = pct + '%';
+      label.innerHTML = lang === 'fr'
+        ? `Ajout ${i+1}/${total}…`
+        : `Adding ${i+1}/${total}…`;
+
+      const resp = await fetch(doc.file);
+      const blob = await resp.blob();
+      const fname = doc.file.split('/').pop();
+      zip.file(fname, blob);
+    }
+
+    bar.style.width = '95%';
+    label.innerHTML = lang === 'fr' ? 'Génération…' : 'Generating…';
+
+    const content = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 } },
+      meta => { bar.style.width = (95 + meta.percent * 0.05) + '%'; }
+    );
+
+    bar.style.width = '100%';
+
+    // Trigger download
+    const url = URL.createObjectURL(content);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'TakaPlast_Dossier_Complet.zip';
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+
+  } catch(e) {
+    console.error(e);
+    alert(lang === 'fr' ? 'Erreur lors de la génération du zip.' : 'Error generating zip file.');
+  } finally {
+    setTimeout(() => {
+      btn.classList.remove('loading');
+      prog.style.display = 'none';
+      bar.style.width = '0%';
+      icon.style.display = '';
+      label.innerHTML = lang === 'fr'
+        ? '<span class="lang-block lang-fr active">Tout télécharger (.zip)</span><span class="lang-block lang-en">Download all (.zip)</span>'
+        : '<span class="lang-block lang-fr active">Tout télécharger (.zip)</span><span class="lang-block lang-en active">Download all (.zip)</span>';
+    }, 800);
+  }
+});
+
 // Auto lang
 const ul = (navigator.language||'fr').toLowerCase();
 if (!ul.startsWith('fr')) setLang('en');
