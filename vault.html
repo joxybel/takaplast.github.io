@@ -570,18 +570,22 @@ function createCard(doc, hasFR, hasEN) {
     <div class="doc-name" data-fr="${esc(doc.name_fr)}" data-en="${esc(doc.name_en)}">${esc(lang==='fr'?doc.name_fr:doc.name_en)}</div>
     <div class="doc-desc" data-fr="${esc(doc.desc_fr)}" data-en="${esc(doc.desc_en)}">${esc(lang==='fr'?doc.desc_fr:doc.desc_en)}</div>
     <div class="doc-footer">
-      <a class="dl-btn ${(lang==='fr'&&hasFR)||(lang==='en'&&hasEN)?'':'unavailable'}"
-         href="${(lang==='fr'&&hasFR)?filePath(doc,'fr'):(lang==='en'&&hasEN)?filePath(doc,'en'):'#'}"
-         download="${(lang==='fr'&&hasFR)?'FR_'+esc(doc.name)+'.'+doc.type:(lang==='en'&&hasEN)?'EN_'+esc(doc.name)+'.'+doc.type:''}"
-         data-doc="${docIdx}" data-has-fr="${hasFR}" data-has-en="${hasEN}">
+      <button class="dl-btn ${(lang==='fr'&&hasFR)||(lang==='en'&&hasEN)?'':'unavailable'}"
+              data-doc="${docIdx}" data-has-fr="${hasFR}" data-has-en="${hasEN}" type="button">
         ${DL_ICON}
         <span data-fr="Télécharger" data-en="Download">${lang==='fr'?'Télécharger':'Download'}</span>
-      </a>
+      </button>
     </div>`;
 
-  // Session guard — prevent link use if session expired
-  card.querySelector('.dl-btn').addEventListener('click', function(e) {
-    if (!sessionOk()) { e.preventDefault(); location.reload(); }
+  // Synchronous click handler — window.location.href is the only reliable method
+  card.querySelector('.dl-btn').addEventListener('click', function() {
+    if (!sessionOk()) { location.reload(); return; }
+    const d = DOCS[parseInt(this.dataset.doc)];
+    const hasFR = this.dataset.hasFr === 'true';
+    const hasEN = this.dataset.hasEn === 'true';
+    const l = (lang === 'fr' && hasFR) ? 'fr' : (lang === 'en' && hasEN) ? 'en' : null;
+    if (!l) return;
+    window.location.href = filePath(d, l);
   });
 
   // Update button state when lang changes
@@ -590,22 +594,13 @@ function createCard(doc, hasFR, hasEN) {
   return card;
 }
 
-// Update button availability + href when lang changes
+// Update button availability when lang changes
 function updateCardButtons() {
   document.querySelectorAll('.dl-btn[data-has-fr]').forEach(btn => {
     const hasFR = btn.dataset.hasFr === 'true';
     const hasEN = btn.dataset.hasEn === 'true';
     const available = (lang==='fr' && hasFR) || (lang==='en' && hasEN);
     btn.classList.toggle('unavailable', !available);
-    if (available) {
-      const d = DOCS[parseInt(btn.dataset.doc)];
-      const l = (lang==='fr' && hasFR) ? 'fr' : 'en';
-      btn.href = filePath(d, l);
-      btn.download = `${l.toUpperCase()}_${d.name}.${d.type}`;
-    } else {
-      btn.href = '#';
-      btn.removeAttribute('download');
-    }
   });
 }
 
