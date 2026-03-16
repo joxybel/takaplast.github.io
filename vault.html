@@ -258,7 +258,7 @@ const LOCKOUT_MIN  = 15;
 /* ══════════════════════════════════════════════
    DOCUMENTS — {folder, name, name_en, type, desc_fr, desc_en, langs}
    langs: ['fr'] = French only | ['en'] = English only | ['fr','en'] = both
-   Files: docs/FR_{name}.{ext} and/or docs/EN_{name}.{ext}
+   Files: FR_{name}.{ext} (racine du repo) and/or docs/EN_{name}.{ext}
    
    ⚠️ MANQUANT : Subventions (à ajouter une fois le fichier créé)
 ══════════════════════════════════════════════ */
@@ -506,7 +506,7 @@ document.getElementById('lock-btn').addEventListener('click', () => {
 /* ══════════════════════════════════════════════
    BUILD DOCUMENTS
    File path is derived at runtime from session token
-   + lang: docs/{LANG}_{name}.{ext}
+   + lang: {LANG}_{name}.{ext} (repo root)
    Path is never stored in DOM — computed in JS only
 ══════════════════════════════════════════════ */
 const G = { investor:'g-investor', project:'g-project', finance:'g-finance', commercial:'g-commercial' };
@@ -546,7 +546,12 @@ async function buildDocs() {
     }
   }
 
-  if (availableFiles.length > 0) document.getElementById('zip-btn').classList.remove('unavailable');
+  updateZipBtn();
+}
+
+function updateZipBtn() {
+  const hasAny = availableFiles.some(f => f.lang === lang);
+  document.getElementById('zip-btn').classList.toggle('unavailable', !hasAny);
 }
 
 function createCard(doc, hasFR, hasEN) {
@@ -572,17 +577,38 @@ function createCard(doc, hasFR, hasEN) {
       </button>
     </div>`;
 
-  // Download handler — resolves path at runtime, checks session
-  card.querySelector('.dl-btn').addEventListener('click', function() {
+  // Download handler — fetch+blob (same as ZIP, bypasses browser popup block)
+  card.querySelector('.dl-btn').addEventListener('click', async function() {
     if (!sessionOk()) { location.reload(); return; }
-    const d = DOCS[parseInt(this.dataset.doc)];
-    const hasFR = this.dataset.hasFr === 'true';
-    const hasEN = this.dataset.hasEn === 'true';
-    const l = (lang==='fr' && hasFR) ? 'fr' : (lang==='en' && hasEN) ? 'en' : hasFR ? 'fr' : 'en';
+    const btn = this;
+    const d = DOCS[parseInt(btn.dataset.doc)];
+    const hasFR = btn.dataset.hasFr === 'true';
+    const hasEN = btn.dataset.hasEn === 'true';
+    const l = lang; // strict — only serve the displayed language
     const path = filePath(d, l);
-    const a = document.createElement('a');
-    a.href = path; a.download = `${l.toUpperCase()}_${d.name}.${d.type}`;
-    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    const filename = `${l.toUpperCase()}_${d.name}.${d.type}`;
+
+    // Visual feedback
+    const origHTML = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = DL_ICON + ' <span>…</span>';
+
+    try {
+      const resp = await fetch(path);
+      if (!resp.ok) throw new Error('fetch failed');
+      const blob = await resp.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 8000);
+    } catch(e) {
+      // Fallback: open in new tab
+      window.open(path, '_blank');
+    } finally {
+      setTimeout(() => { btn.disabled = false; btn.innerHTML = origHTML; }, 1500);
+    }
   });
 
   // Update button state when lang changes
@@ -605,8 +631,8 @@ function updateCardButtons() {
 const origSetLang = setLang;
 window._setLang = setLang;
 
-document.getElementById('btn-fr').addEventListener('click', updateCardButtons);
-document.getElementById('btn-en').addEventListener('click', updateCardButtons);
+document.getElementById('btn-fr').addEventListener('click', () => { updateCardButtons(); updateZipBtn(); });
+document.getElementById('btn-en').addEventListener('click', () => { updateCardButtons(); updateZipBtn(); });
 
 function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
@@ -625,16 +651,8 @@ document.getElementById('zip-btn').addEventListener('click', async () => {
   prog.style.display = 'block';
   icon.style.display = 'none';
 
-  // Filter available for current lang
-  const toDownload = availableFiles.filter(f => {
-    const hasFR = f.lang === 'fr';
-    const hasEN = f.lang === 'en';
-    return (lang==='fr' && hasFR) || (lang==='en' && hasEN) || hasFR || hasEN;
-  });
-  // Deduplicate by doc name (prefer current lang)
-  const seen = new Set();
-  const files = [];
-  toDownload.forEach(f => { if (!seen.has(f.doc.name)) { seen.add(f.doc.name); files.push(f); }});
+  // Strict: only files in current lang
+  const files = availableFiles.filter(f => f.lang === lang);
 
   try {
     if (!window.JSZip) {
