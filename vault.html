@@ -516,7 +516,7 @@ const availableFiles = [];
 
 function filePath(doc, l) {
   // Path computed at runtime — not in DOM attributes
-  return `docs/${l.toUpperCase()}_${doc.name}.${doc.type}`;
+  return `docs/${l.toUpperCase()}/${l.toUpperCase()}_${doc.name}.${doc.type}`;
 }
 
 async function fileExists(url) {
