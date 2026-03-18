@@ -333,6 +333,8 @@ function setLang(l) {
   document.querySelectorAll('.dl[data-lang]').forEach(function(a) {
     a.style.display = a.dataset.lang === l ? '' : 'none';
   });
+  /* Persister la langue pour index.html */
+  localStorage.setItem('tklang', l);
   checkFiles();
 }
 
@@ -457,6 +459,7 @@ if(locked()) showLockMsg();
 
 function doLock(){
   sessionStorage.removeItem('ok');
+  /* La langue est deja dans localStorage, index.html la lira */
   window.location.href = 'index.html';
 }
 
@@ -498,7 +501,13 @@ async function doZip(){
 
 /* ---- INIT ---- */
 document.querySelectorAll('.dl[data-lang="en"]').forEach(function(a) { a.style.display = 'none'; });
-if (!(navigator.language || 'fr').toLowerCase().startsWith('fr')) setLang('en');
+/* Langue : localStorage > navigateur > FR par defaut */
+var savedLang = localStorage.getItem('tklang');
+if (savedLang === 'en' || savedLang === 'fr') {
+  setLang(savedLang);
+} else if (!(navigator.language || 'fr').toLowerCase().startsWith('fr')) {
+  setLang('en');
+}
 </script>
 </body>
 </html>

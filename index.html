@@ -1008,7 +1008,7 @@
     &nbsp;·&nbsp;
     <a href="mailto:joxybel@takaplast.com">joxybel@takaplast.com</a>
     &nbsp;·&nbsp;
-    <a href="vault.html" style="color:var(--accent);font-weight:600">Espace Investisseur →</a>
+    <a href="vault.html" id="vault-link" style="color:var(--accent);font-weight:600"><span class="lang-block lang-fr active" style="display:inline">Espace Investisseur &#x2192;</span><span class="lang-block lang-en" style="display:none">Investor Portal &#x2192;</span></a>
   </div>
 </footer>
  
@@ -1032,14 +1032,27 @@
     btnFr.classList.toggle('active', isFr);
     btnEn.classList.toggle('active', !isFr);
     document.documentElement.lang = lang;
+    /* Persister la langue pour vault.html */
+    localStorage.setItem('tklang', lang);
+    /* Mettre a jour le lien vault dans le footer */
+    var vl = document.getElementById('vault-link');
+    if (vl) {
+      vl.querySelectorAll('.lang-fr').forEach(function(el){ el.style.display = isFr ? 'inline' : 'none'; });
+      vl.querySelectorAll('.lang-en').forEach(function(el){ el.style.display = isFr ? 'none' : 'inline'; });
+    }
   }
  
   btnFr.addEventListener('click', () => showLang('fr'));
   btnEn.addEventListener('click', () => showLang('en'));
  
-  /* Détection automatique de la langue du navigateur */
-  const userLang = (navigator.language || 'fr').toLowerCase();
-  if (!userLang.startsWith('fr')) showLang('en');
+  /* Langue : localStorage > navigateur > FR par defaut */
+  var savedLang = localStorage.getItem('tklang');
+  if (savedLang === 'en' || savedLang === 'fr') {
+    showLang(savedLang);
+  } else {
+    var userLang = (navigator.language || 'fr').toLowerCase();
+    if (!userLang.startsWith('fr')) showLang('en');
+  }
  
   /* ── Lightbox (clic sur le schéma) ── */
   const lightbox    = document.getElementById('lightbox');
